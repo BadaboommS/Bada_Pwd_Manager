@@ -2,12 +2,13 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
-
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+    <title>Bada's Password Manager</title>
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-    <script type="module" src="/src/renderer.ts"></script>
+    <div id="root"></div>
+    <div id="modal_portal"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

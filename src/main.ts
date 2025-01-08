@@ -1,6 +1,10 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import started from 'electron-squirrel-startup';
+import { mainServiceFile, mainServiceInfo } from './services/main.service';
+import { ParamsInterface, NewFileInterface } from './types/mainProcessTypes';
+import { activeFileService } from './services/activeFile.service';
+import { PwdArray } from './types/pwdTypes';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -14,6 +18,8 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true, //Must be true for the context bridge API to work.
+      nodeIntegration: true
     },
   });
 
@@ -26,6 +32,8 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  //Hide menu
+  mainWindow.setMenu(null); 
 };
 
 // This method will be called when Electron has finished
@@ -52,3 +60,52 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+// Data Storage function for main process
+
+// Handler => expect a return value for Renderer
+ipcMain.handle("getStorageFileData", () => {
+  return mainServiceFile.getStorageFilesInfo();
+})
+
+ipcMain.handle("checkMasterKey", (e, encodedKey: string, fileName: string) => {
+  return mainServiceInfo.checkMasterKey(encodedKey, fileName);
+})
+
+ipcMain.handle("getFileParams", (e, token: string) => {
+  return mainServiceInfo.checkToken(token)? activeFileService.getActiveFileData('params') : null;
+})
+
+ipcMain.handle("getUserPwdData", (e, token: string) => {
+  return mainServiceInfo.checkToken(token)? activeFileService.getActiveFileData('pwdList') : null;
+})
+
+// On => No return value
+ipcMain.on("createNewFile", (e, newFileData: NewFileInterface) => {
+  mainServiceFile.createStorageFile(newFileData);
+})
+
+ipcMain.on("deleteFile", (e, fileName: string) => {
+  mainServiceFile.deleteStorageFile(fileName);
+})
+
+ipcMain.on("setActiveFile", (e, selectedFile: string) => {
+  const fileData = mainServiceInfo.getFileEncryptedInfo(selectedFile);
+  activeFileService.updateActiveFile(selectedFile, fileData);
+})
+
+ipcMain.on("resetActiveFile", () => {
+  activeFileService.updateActiveFile();
+})
+
+ipcMain.on("setPwdData", (e, newPwdData: PwdArray, token: string) => {
+  if(mainServiceFile.isEncryptionAvailable() && mainServiceInfo.checkToken(token)){
+    mainServiceInfo.writeUserPwd(newPwdData);
+  }
+});
+
+ipcMain.on("setFileParams", (e, newParams: ParamsInterface, token: string) => {
+  if(mainServiceFile.isEncryptionAvailable() && mainServiceInfo.checkToken(token)){
+    mainServiceInfo.writeUserParams(newParams);
+  }
+});

@@ -1,0 +1,57 @@
+/*Password List table*/
+table{
+    text-align: left;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    border-radius: 30px;
+    color: #000000;
+}
+table th {
+    border: 1px solid black;
+    background-color: #eceff1;
+    padding: 5px;
+}
+table td {
+    border: 1px solid black;
+    background-color: #ffffff;
+    padding: 5px;
+}
+
+/* Password hide/show class */
+.password_field{
+    -webkit-text-security:disc; 
+}
+
+/* Menu up and down arrow */
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1
+}
+
+/* Loading Modal */
+.lds-dual-ring {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+}
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
