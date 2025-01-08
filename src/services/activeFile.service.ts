@@ -2,7 +2,7 @@ import { ActiveFileInterface, DEFAULT_FILE, DEFAULT_FILE_DATA } from "../types/m
 
 let activeFileName = DEFAULT_FILE;
 let activeFileData: ActiveFileInterface = DEFAULT_FILE_DATA;
-let activeToken: string = '';
+let activeToken = '';
 
 /* function showActualFile(){
     console.log("Active File Name: ", activeFileName);

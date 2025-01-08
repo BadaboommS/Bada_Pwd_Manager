@@ -18,7 +18,7 @@ function initMkdir(): void{
     }
 }
 
-function getStoragePath(file: string = ''): string{
+function getStoragePath(file = ''): string{
     return path.join(app.getPath('userData'), `DataStorage/${file}`);
 }
 
@@ -41,7 +41,7 @@ function logError(error: unknown) {
     }
 }
 
-function isDataStored(file: string = ""): boolean{
+function isDataStored(file = ""): boolean{
     try{
         const filePath = getStoragePath(file);
         return(filePath !== null || filePath !== undefined);
@@ -92,7 +92,7 @@ function writeUserData(stringData: string, file: string): void{
     }
 }
 
-function getEncryptedInfo<K extends keyof FullFileInterface>(objectKey: K, fileName: string = ""): FullFileInterface[K] {
+function getEncryptedInfo<K extends keyof FullFileInterface>(objectKey: K, fileName = ""): FullFileInterface[K] {
     try{
         if(fileName === ""){
             fileName = activeFileService.getActiveFileName();
