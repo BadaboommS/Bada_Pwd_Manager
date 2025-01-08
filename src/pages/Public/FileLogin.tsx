@@ -1,29 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from 'react-router';
 import { GeneralContext } from '../../context/GeneralContextProvider';
 import { accountService } from '../../services/account.service';
 import Modal from '../../global/Modal';
 
+type LoginFormInput = {
+    password: string
+}
+
 export default function FileLogin() {
     const { selectedFile, setSelectedFile } = useContext(GeneralContext);
     const [showLogin, setShowLogin] = useState(false);
-    const [inputPassword, setInputPassword] = useState('');
     const [loadingModal, setLoadingModal] = useState(false);
     const [fetchError, setFetchError] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(!showLogin && selectedFile !== ""){
-            setShowLogin(true);
+    const { register, handleSubmit } = useForm<LoginFormInput>({
+        defaultValues: {
+            password: ''
         }
-    }, [selectedFile]);
-
-    function handlePasswordSubmit(e: React.FormEvent<HTMLFormElement>): void{
-        e.preventDefault();
+    });
+    const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
         setFetchError(false);
         setLoadingModal(true);
 
-        accountService.login(inputPassword, selectedFile)
+        accountService.login(data.password, selectedFile)
             .then(token => {
                 if(token === null || token === undefined){
                     setFetchError(true);
@@ -40,19 +42,24 @@ export default function FileLogin() {
             })
     }
 
+    useEffect(() => {
+        if(!showLogin && selectedFile !== ""){
+            setShowLogin(true);
+        }
+    }, [selectedFile]);
+
     function handleFileLoginCancel(): void{
         setShowLogin(false);
         setSelectedFile('');
-        setInputPassword('');
     }
 
     return (
         <Modal open={showLogin} key={`${showLogin}-${selectedFile}`}>
             <div className='w-full h-full flex items-center justify-center'>
-                <form className='bg-slate-400 rounded-md p-5 gap-5 border border-solid border-black flex flex-col items-center' onSubmit={(e) => handlePasswordSubmit(e)}>
+                <form className='bg-slate-400 rounded-md p-5 gap-5 border border-solid border-black flex flex-col items-center' onSubmit={handleSubmit(onSubmit)}>
                     <h2 className='text-2xl'>Login</h2>
                     <div className='flex flex-row items-center gap-2'>
-                        <input className="pl-1" type="password" name="password" onChange={(e) => setInputPassword(e.currentTarget.value)} value={inputPassword} autoComplete='off'/>
+                        <input {...register("password", {required: "Enter Master Password."})} className="pl-1" type="password" autoComplete='off'/>
                     </div>
                     <div className='flex gap-2'>
                         <button type="submit" className='text-white bg-slate-600 p-2 rounded-sm hover:cursor-pointer'>Connexion</button>

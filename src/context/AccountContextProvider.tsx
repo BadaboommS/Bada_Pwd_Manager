@@ -70,8 +70,10 @@ export default function AccountContextProvider ({ children }: { children: React.
   useEffect(() => {
     try{
       fetchFileParams().then((fetchedParams) => {
-        if(!(Object.keys(fetchedParams).length === 0 && fetchedParams.constructor === Object)){
-          setFileParams(fetchedParams);
+        if(fetchedParams !== null){
+          if(!(Object.keys(fetchedParams).length === 0 && fetchedParams.constructor === Object)){
+            setFileParams(fetchedParams);
+          }
         }
       })
     }catch(err){

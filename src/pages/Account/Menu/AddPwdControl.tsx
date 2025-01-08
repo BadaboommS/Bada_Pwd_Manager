@@ -1,35 +1,43 @@
-import React, { useContext, useState } from 'react'
-import Modal from '../../../global/Modal'
+import React, { useContext, useState } from 'react';
+import { useForm, SubmitHandler } from "react-hook-form";
 import { MdDone, MdCancel, MdAdd } from 'react-icons/md';
 import { AccountContext } from '../../../context/AccountContextProvider';
+import Modal from '../../../global/Modal';
+
+type PwdFormInput = {
+    name: string,
+    website: string,
+    username: string,
+    password: string,
+    comment: string
+}
 
 export default function AddPwdControl() {
     const { passwordList, setPasswordList } = useContext(AccountContext);
     const [ showAddPwdForm, setShowAddPwdForm ] = useState(false);
 
-    function handleAddPasswordEntry(e: React.FormEvent<HTMLFormElement>): void{
-        e.preventDefault();
+    const { register, handleSubmit } = useForm<PwdFormInput>({
+        defaultValues: {
+            name: '',
+            website: '',
+            username: '',
+            password: '',
+            comment: ''
+        }
+    });
 
+    const onSubmit: SubmitHandler<PwdFormInput> = (data) => {
         if(window.confirm("Confirm add new password ?") === false){
             return null
         }
 
-        const form = e.currentTarget;
-        const formElements = form.elements as typeof form.elements & {
-            name: {value: string};
-            website: {value: string};
-            username: {value: string};
-            password: {value: string};
-            comment: {value: string};
-        }
-
         const newPwd = {
             id: passwordList[0]? passwordList[passwordList.length - 1].id + 1 : 0,
-            name: formElements.name.value,
-            website: formElements.website.value,
-            username: formElements.username.value,
-            password: formElements.password.value,
-            comment: formElements.comment.value
+            name: data.name,
+            website: data.website,
+            username: data.username,
+            password: data.password,
+            comment: data.comment
         };
 
         const newPwdArray = [...passwordList, newPwd];
@@ -43,13 +51,13 @@ export default function AddPwdControl() {
                 <MdAdd size='32'/>
             </button>
             <Modal open={showAddPwdForm}>
-                <form onSubmit={(e) => handleAddPasswordEntry(e)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='grid grid-cols-2'>
-                        <input placeholder='Name' type="text" name="name" id="name" required></input>
-                        <input placeholder='Website' type="text" name="website" id="website" required />
-                        <input placeholder='Username' type="text" name="username" id="username" required />
-                        <input placeholder='Password' type="text" name="password" id="password" required />
-                        <input placeholder='Comment' type="text" name="comment" id="comment" />
+                        <input {...register("name", {required: "This Field is required."})} placeholder='Name'/>
+                        <input {...register("website", {required: "This Field is required."})} placeholder='Website' />
+                        <input {...register("username", {required: "This Field is required."})} placeholder='Username' />
+                        <input {...register("password", {required: "This Field is required."})} placeholder='Password' />
+                        <input {...register("comment")} placeholder='Comment' />
                     </div>
                     <div className='flex justify-between'>
                         <button type="submit" title="Confirm"><MdDone size='32' className='p-2'/></button>
