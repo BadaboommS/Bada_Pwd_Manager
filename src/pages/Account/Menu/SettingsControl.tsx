@@ -53,7 +53,7 @@ export default function SettingsControl() {
     return (
         <>
             <button title="Settings" onClick={() => setShowParamsModal(true)}>
-                <MdSettings size='32' />
+                <MdSettings size='32' className="hover:bg-gray-500 rounded transition-all"/>
             </button>
             <Modal open={showParamsModal}>
                 <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -90,10 +90,10 @@ export default function SettingsControl() {
                         <label htmlFor="params_setBrackets">Brackets (&#91;,&#93;,&#123;,&#125;,...)</label>
                     </div>
                     <button type="submit" className='ml-1 p-2' title="Confirm">
-                        <MdSave size='32'/>
+                        <MdSave size='32' className="hover:bg-green-500 rounded transition-all" />
                     </button>
                     <button className='p-2' type='reset' onClick={() => setShowParamsModal(false)} title="Cancel">
-                        <MdCancel size='32'/>
+                        <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
                     </button>
                 </form>
             </Modal>

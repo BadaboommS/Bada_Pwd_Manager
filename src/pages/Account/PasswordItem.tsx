@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { FaEdit, FaCopy } from "react-icons/fa";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { TbEyeOff, TbEye } from "react-icons/tb";
-import { MdCancel, MdDelete, MdDone } from "react-icons/md";
+import { MdCancel, MdDelete, MdDone, MdEditSquare, MdCopyAll  } from "react-icons/md";
 import { PwdItem } from '../../types/pwdTypes';
 import Modal from '../../global/Modal';
 /* import { generatePassword } from '../../utils/generatePassword'; */
@@ -9,27 +9,43 @@ import Modal from '../../global/Modal';
 
 interface PwdItemPropsInterface{
   item: PwdItem,
-  editPasswordEntry: (event: React.FormEvent<HTMLFormElement>, itemId: number) => void,
+  editPasswordEntry: (editedPwd: PwdItem) => void,
   deletePasswordEntry: (id: number) => void
+}
+
+type PwdFormInput = {
+  name: string,
+  website: string,
+  username: string,
+  password: string,
+  comment: string
 }
 
 export default function PasswordItem({ item = null, editPasswordEntry, deletePasswordEntry }: PwdItemPropsInterface) {
     const [showPrivatePassword, setShowPrivatePassword] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
-    function copyTextToClipboard(text: string) {
-        navigator.clipboard.writeText(text);
-    }
-
-    function handlePwdEdit(e: React.FormEvent<HTMLFormElement>): void{
-      e.preventDefault();
-
+    const { register, handleSubmit } = useForm<PwdFormInput>();
+    const onSubmit: SubmitHandler<PwdFormInput> = (data) => {
       if(window.confirm("Confirm Edit ?") === false){
-          return null
+        return null
       }
 
-      editPasswordEntry(e, item.id);
+      const editedPwd = {
+        id: item.id,
+        name: data.name,
+        website: data.website,
+        username: data.username,
+        password: data.password,
+        comment: data.comment
+      }
+
+      editPasswordEntry(editedPwd);
       setShowEdit(false);
+    }
+
+    function copyTextToClipboard(text: string) {
+        navigator.clipboard.writeText(text);
     }
 
     function handlePwdDelete(pwdId: number): void{
@@ -61,25 +77,42 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
         <td>{item.name}</td>
         <td>{item.website}</td>
         <td>{item.username}</td>
-        <td><div className='flex justify-around'><p className={showPrivatePassword? '' : 'password_field'}>{item.password}</p><button onClick={() => copyTextToClipboard(item.password)} title="Copy"><FaCopy size='24'/></button></div></td>
+        <td>
+          <div className='flex justify-around'>
+            <p className={showPrivatePassword? '' : 'password_field'}>{item.password}</p>
+            <button onClick={() => copyTextToClipboard(item.password)} title="Copy">
+              <MdCopyAll size='32'/>
+            </button>
+          </div>
+        </td>
         <td>{item.comment}</td>
         <td>
           <div className='flex justify-around'>
-            <button className='p-2' onClick={() => setShowPrivatePassword(!showPrivatePassword)} title={showPrivatePassword? "Hide" : "Show"}>{showPrivatePassword? <TbEye size='24'/> : <TbEyeOff size='24'/>}</button>
-            <button className='p-2' onClick={() => setShowEdit(!showEdit)} title="Edit"><FaEdit size='24'/></button>
+            <button className='p-2' onClick={() => setShowPrivatePassword(!showPrivatePassword)} title={showPrivatePassword? "Hide" : "Show"}>
+              {showPrivatePassword? <TbEye size='32'/> : <TbEyeOff size='32'/>}
+            </button>
+            <button className='p-2' onClick={() => setShowEdit(!showEdit)} title="Edit">
+              <MdEditSquare size='32'/>
+            </button>
           </div>
         </td>
       </tr>
       <Modal open={showEdit}>
-        <button className='p-2' onClick={() => handlePwdDelete(item.id)} title="Delete Entry"><MdDelete size='24'/></button>
-        <form onSubmit={(e) => handlePwdEdit(e)}>
-          <input placeholder='Name' type="text" name="name" id="name" defaultValue={item.name} required></input>
-          <input placeholder='Website' type="text" name="website" id="website" defaultValue={item.website} required />
-          <input placeholder='Username' type="text" name="username" id="username" defaultValue={item.username} required />
-          <input placeholder='Password' type="text" name="password" id="password" defaultValue={item.password} required />
-          <input placeholder='Comment' type="text" name="comment" id="comment" defaultValue={item.comment} />
-          <button type="submit" className='ml-1 p-2' title="Validate Edit"><MdDone size='24'/></button>
-          <button className='p-2' type='reset' onClick={() => setShowEdit(false)} title="Cancel Edit"><MdCancel size='24'/></button>
+        <button className='p-2' onClick={() => handlePwdDelete(item.id)} title="Delete Entry">
+          <MdDelete size='32' className="hover:bg-red-500 rounded transition-all"/>
+        </button>
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
+          <input {...register("name", {required: "This Field is required."})} placeholder='Name' defaultValue={item.name} />
+          <input {...register("website", {required: "This Field is required."})} placeholder='Website' defaultValue={item.website} />
+          <input {...register("username", {required: "This Field is required."})} placeholder='Username' defaultValue={item.username} />
+          <input {...register("password", {required: "This Field is required."})} placeholder='Password' defaultValue={item.password} />
+          <input {...register("comment", {required: "This Field is required."})} placeholder='Comment' defaultValue={item.comment} />
+          <button type="submit" className='ml-1 p-2' title="Validate Edit">
+            <MdDone size='32' className="hover:bg-green-500 rounded transition-all"/>
+          </button>
+          <button className='p-2' type='reset' onClick={() => setShowEdit(false)} title="Cancel Edit">
+            <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
+          </button>
         </form>
       </Modal>
     </>

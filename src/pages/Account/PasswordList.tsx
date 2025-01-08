@@ -6,33 +6,14 @@ import { AccountContext } from '../../context/AccountContextProvider'
 export default function PasswordList() {
   const { passwordList, setPasswordList } = useContext(AccountContext);
       
-  function editPasswordEntry( event: React.FormEvent<HTMLFormElement>, itemId: number ): void{
-
-    const form = event.currentTarget;
-    const formElements = form.elements as typeof form.elements & {
-      name: {value: string};
-      website: {value: string};
-      username: {value: string};
-      password: {value: string};
-      comment: {value: string};
-    }
-
-    const editedPwd = {
-      id: itemId,
-      name: formElements.name.value,
-      website: formElements.website.value,
-      username: formElements.username.value,
-      password: formElements.password.value,
-      comment: formElements.comment.value
-    };
-
+  function editPasswordEntry( editedPwd: PwdItem ): void{
     const newPwdArray = [...passwordList];
-    const editPwdIndex = newPwdArray.findIndex((obj:PwdItem) => obj.id === itemId);
+    const editPwdIndex = newPwdArray.findIndex((obj:PwdItem) => obj.id === editedPwd.id);
     newPwdArray[editPwdIndex] = editedPwd;
     setPasswordList(newPwdArray);
   }
 
-  function deletePasswordEntry(deletePwdId: number): void{
+  function deletePasswordEntry( deletePwdId: number ): void{
     const pwdList = [...passwordList];
     const newPwdArray = pwdList.filter((obj: PwdItem) => obj.id !== deletePwdId);
     setPasswordList(newPwdArray);

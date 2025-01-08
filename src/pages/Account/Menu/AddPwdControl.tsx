@@ -47,11 +47,11 @@ export default function AddPwdControl() {
 
     return (
         <>
-            <button title="Add New Password" onClick={() => setShowAddPwdForm(true)}>
-                <MdAdd size='32'/>
+            <button title="Add New Password" onClick={() => setShowAddPwdForm(true)} >
+                <MdAdd size='32' className="hover:bg-green-500 rounded transition-all"/>
             </button>
             <Modal open={showAddPwdForm}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
                     <div className='grid grid-cols-2'>
                         <input {...register("name", {required: "This Field is required."})} placeholder='Name'/>
                         <input {...register("website", {required: "This Field is required."})} placeholder='Website' />
@@ -60,8 +60,12 @@ export default function AddPwdControl() {
                         <input {...register("comment")} placeholder='Comment' />
                     </div>
                     <div className='flex justify-between'>
-                        <button type="submit" title="Confirm"><MdDone size='32' className='p-2'/></button>
-                        <button type='reset' onClick={() => setShowAddPwdForm(false)} title="Cancel"><MdCancel size='32' className='p-2'/></button>
+                        <button type="submit" title="Confirm">
+                            <MdDone size='32' className="hover:bg-green-500 rounded transition-all" />
+                        </button>
+                        <button type='reset' onClick={() => setShowAddPwdForm(false)} title="Cancel">
+                            <MdCancel size='32' className="hover:bg-red-500 rounded transition-all" />
+                        </button>
                     </div>
                 </form>
             </Modal>

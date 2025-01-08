@@ -20,7 +20,7 @@ export default function FileDelete () {
     return (
         <>
             <button title="Delete File" onClick={() => setShowDeleteModal(true)}>
-                <MdDelete size='32' className="hover:bg-red-500 rounded p-2 transition-all"/>
+                <MdDelete size='32' className="hover:bg-red-500 rounded transition-all"/>
             </button>
             <Modal open={showDeleteModal}>
                 <div className="flex flex-col gap-2 justify-center items-center">
@@ -33,7 +33,9 @@ export default function FileDelete () {
                             </div>
                         :   <p>No File to Delete !</p>
                     }
-                    <button className='p-2' type='reset' onClick={() => setShowDeleteModal(false)} title="Cancel"><MdCancel size='32' className="hover:bg-red-500 rounded p-2 transition-all"/></button>
+                    <button className='p-2' type='reset' onClick={() => setShowDeleteModal(false)} title="Cancel">
+                        <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
+                    </button>
                 </div>
             </Modal>
         </>

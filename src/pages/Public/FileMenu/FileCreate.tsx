@@ -97,8 +97,12 @@ export default function FileCreate () {
                     <input type="checkbox" name="params_setBrackets" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setBrackets}/>
                     <label htmlFor="params_setBrackets">Brackets (&#91;,&#93;,&#123;,&#125;,...)</label>
                 </div>
-                <button type="submit" className='ml-1 p-2' title="Confirm"><MdDone size='24'/></button>
-                <button className='p-2' type='reset' onClick={() => setShowAddFile(false)} title="Cancel"><MdCancel size='24'/></button>
+                <button type="submit" className='ml-1 p-2' title="Confirm">
+                    <MdDone size='32' className="hover:bg-green-500 rounded transition-all"/>
+                </button>
+                <button className='p-2' type='reset' onClick={() => setShowAddFile(false)} title="Cancel">
+                    <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
+                </button>
             </form>
         </Modal>
       </>

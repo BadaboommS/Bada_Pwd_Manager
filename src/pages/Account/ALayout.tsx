@@ -1,6 +1,6 @@
 import React from 'react';
-import { Outlet } from 'react-router'
-import Menu from './Menu/Menu'
+import { Outlet } from 'react-router';
+import Menu from './Menu/Menu';
 //import Nav
 
 export default function ALayout () {
