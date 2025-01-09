@@ -16,7 +16,7 @@ export default function FileLogin() {
     const [fetchError, setFetchError] = useState(false);
     const navigate = useNavigate();
 
-    const { register, handleSubmit } = useForm<LoginFormInput>({
+    const { register, handleSubmit, reset } = useForm<LoginFormInput>({
         defaultValues: {
             password: ''
         }
@@ -32,6 +32,8 @@ export default function FileLogin() {
                     setLoadingModal(false);
                 }else{
                     accountService.saveToken(token);
+                    setShowLogin(false);
+                    reset();
                     navigate("/account", {replace: true});
                 }
             })
@@ -42,16 +44,16 @@ export default function FileLogin() {
             })
     }
 
+    function handleFileLoginCancel(): void{
+        setShowLogin(false);
+        setSelectedFile('');
+    }
+
     useEffect(() => {
         if(!showLogin && selectedFile !== ""){
             setShowLogin(true);
         }
     }, [selectedFile]);
-
-    function handleFileLoginCancel(): void{
-        setShowLogin(false);
-        setSelectedFile('');
-    }
 
     return (
         <Modal open={showLogin} key={`${showLogin}-${selectedFile}`}>

@@ -5,7 +5,7 @@ ToDoList:
 3. [X] File select: dynamic file selection -> context selectedFile.
 4. [X] Add Generate Password in front + Generate password params save.
 5. [X] Logout button in account.
-6. [ ] Fix some text input not working on second use. (Input ID / Name ?) Form prevent default?
+6. [ ] Fix some text input not working on second use. -> FormState is "Submited" even second modal open.
 7. [ ] Add File List css.
 8. [X] Add more File List Info.
 9. [X] Add file create.
@@ -18,4 +18,5 @@ ToDoList:
 16. [X] Do Generate Token.
 17. [X] Add File Delete in account side menu.
 18. [X] Add null & undefined token check in authgard.
-19. [ ] Use form mageul.
+19. [X] Use form mageul.
+20. [ ] Add master key check on file delete.

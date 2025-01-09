@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { MdDone, MdCancel, MdAdd } from 'react-icons/md';
+import { TbEyeOff, TbEye } from "react-icons/tb";
 import { AccountContext } from '../../../context/AccountContextProvider';
+import { generatePassword } from '../../../utils/generatePassword';
 import Modal from '../../../global/Modal';
 
 type PwdFormInput = {
@@ -13,15 +15,16 @@ type PwdFormInput = {
 }
 
 export default function AddPwdControl() {
-    const { passwordList, setPasswordList } = useContext(AccountContext);
+    const { passwordList, setPasswordList, fileParams } = useContext(AccountContext);
+    const [showPrivatePassword, setShowPrivatePassword] = useState(false);
     const [ showAddPwdForm, setShowAddPwdForm ] = useState(false);
 
-    const { register, handleSubmit } = useForm<PwdFormInput>({
+    const { register, handleSubmit, setValue, reset, formState } = useForm<PwdFormInput>({
         defaultValues: {
             name: '',
             website: '',
             username: '',
-            password: '',
+            password: generatePassword(fileParams),
             comment: ''
         }
     });
@@ -42,33 +45,50 @@ export default function AddPwdControl() {
 
         const newPwdArray = [...passwordList, newPwd];
         setPasswordList(newPwdArray);
+        reset();
         setShowAddPwdForm(false);
     }
+
+    function getNewPassword(): void{
+        const newPassword = generatePassword(fileParams);
+        setValue('password', newPassword);
+    }
+
+    useEffect(() => {
+        console.log(formState.isSubmitSuccessful);
+    }, [formState]);
 
     return (
         <>
             <button title="Add New Password" onClick={() => setShowAddPwdForm(true)} >
                 <MdAdd size='32' className="hover:bg-green-500 rounded transition-all"/>
             </button>
-            <Modal open={showAddPwdForm}>
-                <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
-                    <div className='grid grid-cols-2'>
-                        <input {...register("name", {required: "This Field is required."})} placeholder='Name'/>
-                        <input {...register("website", {required: "This Field is required."})} placeholder='Website' />
-                        <input {...register("username", {required: "This Field is required."})} placeholder='Username' />
-                        <input {...register("password", {required: "This Field is required."})} placeholder='Password' />
-                        <input {...register("comment")} placeholder='Comment' />
-                    </div>
-                    <div className='flex justify-between'>
-                        <button type="submit" title="Confirm">
-                            <MdDone size='32' className="hover:bg-green-500 rounded transition-all" />
-                        </button>
-                        <button type='reset' onClick={() => setShowAddPwdForm(false)} title="Cancel">
-                            <MdCancel size='32' className="hover:bg-red-500 rounded transition-all" />
-                        </button>
-                    </div>
-                </form>
-            </Modal>
+            {(showAddPwdForm)
+                ?   <Modal open={showAddPwdForm}>
+                        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2' key={new Date().getTime()}>
+                            <div className='grid grid-cols-2'>
+                                <input {...register("name", {required: "This Field is required."})} placeholder='Name'/>
+                                <input {...register("website", {required: "This Field is required."})} placeholder='Website' />
+                                <input {...register("username", {required: "This Field is required."})} placeholder='Username' />
+                                <input {...register("password", {required: "This Field is required."})} className={showPrivatePassword? '' : 'password_field'} placeholder='Password'/>
+                                <input {...register("comment")} placeholder='Comment' />
+                                <button className='p-2' onClick={() => setShowPrivatePassword(!showPrivatePassword)} title={showPrivatePassword? "Hide" : "Show"}>
+                                    {showPrivatePassword? <TbEye size='24'/> : <TbEyeOff size='24'/>}
+                                </button>
+                                <button onClick={() => getNewPassword()}>Get New Password</button>
+                            </div>
+                            <div className='flex justify-between'>
+                                <button type="submit" title="Confirm">
+                                    <MdDone size='32' className="hover:bg-green-500 rounded transition-all" />
+                                </button>
+                                <button type='reset' onClick={() => setShowAddPwdForm(false)} title="Cancel">
+                                    <MdCancel size='32' className="hover:bg-red-500 rounded transition-all" />
+                                </button>
+                            </div>
+                        </form>
+                    </Modal>
+                :   <></>
+            }
         </>
     )
 }

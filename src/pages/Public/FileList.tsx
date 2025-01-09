@@ -1,14 +1,24 @@
 import React, { useContext } from 'react';
-import { GeneralContext } from '../../context/GeneralContextProvider';
 import { StorageDataInfoInterface } from '../../types/mainProcessTypes';
+import { GeneralContext } from '../../context/GeneralContextProvider';
 import { PublicContext } from '../../context/PublicContextProvider';
+import FileItem from './FileItem';
 
 export default function FileList() {
-    const { filesList } = useContext(PublicContext);
+    const { filesList, setReload } = useContext(PublicContext);
     const { setSelectedFile } = useContext(GeneralContext);
 
     function handleSetActiveFile(selectedFile: string): void{
         setSelectedFile(selectedFile);
+    }
+
+    function handleDeleteFile(selectedFile: string): void{
+        if(window.confirm("Confirm File suppression ? (this is permanent)") === false){
+            return null
+        }
+
+        window.electronAPI.deleteFile(selectedFile);
+        setReload(true);
     }
 
     return (
@@ -20,16 +30,13 @@ export default function FileList() {
                                 <th>File</th>
                                 <th>Last modified</th>
                                 <th>Size</th>
+                                <th>Options</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filesList.map((file: StorageDataInfoInterface, i: number) => {
                                 return(
-                                    <tr key={i} className='hover:cursor-pointer' onClick={() => handleSetActiveFile(file.fileName)}>
-                                        <td>{file.fileName}</td>
-                                        <td>{file.fileModified.toLocaleDateString()}</td>
-                                        <td>{file.fileSize}</td>
-                                    </tr>
+                                    <FileItem key={i} file={file} setActive={handleSetActiveFile} deleteFile={handleDeleteFile}/>
                                 )
                             })}
                         </tbody>

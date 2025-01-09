@@ -12,9 +12,10 @@ const Modal = ({ open, children } : {open: boolean, children: React.ReactNode}) 
         }
     }, [open]);
 
-    if(!open) return null
+    if(!open) return null;
+
     return (
-        <div className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.7)] flex justify-center items-center p-2'>
+        <div key={new Date().getTime()} className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.7)] flex justify-center items-center p-2'>
             <div ref={modalRef} className='max-w-md h-fit bg-white rounded p-2'>
                 { children }
             </div>

@@ -132,7 +132,7 @@ function createStorageFile(newFileData: NewFileInterface): void{
             params: newFileData.params,
             pwdList: []
         }
-        if(!fs.existsSync(fileName)){
+        if(!fs.existsSync(getStoragePath(fileName))){
             writeUserData(JSON.stringify(newData), fileName);
         }
     }catch(err){

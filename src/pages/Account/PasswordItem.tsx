@@ -4,8 +4,6 @@ import { TbEyeOff, TbEye } from "react-icons/tb";
 import { MdCancel, MdDelete, MdDone, MdEditSquare, MdCopyAll  } from "react-icons/md";
 import { PwdItem } from '../../types/pwdTypes';
 import Modal from '../../global/Modal';
-/* import { generatePassword } from '../../utils/generatePassword'; */
-
 
 interface PwdItemPropsInterface{
   item: PwdItem,
@@ -56,19 +54,6 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
       setShowEdit(false);
       deletePasswordEntry(pwdId);
     }
-
-    /* const testGenerate = {
-      length: 20,
-      selectedSet: {
-          setNumber: true,
-          setUppercase: true,
-          setLowercase: true,
-          setMinus: false,
-          setUnderline: false,
-          setSpecial: true,
-          setBrackets: true
-      }
-    } */
       
   return (
     <>
@@ -97,24 +82,27 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
           </div>
         </td>
       </tr>
-      <Modal open={showEdit}>
-        <button className='p-2' onClick={() => handlePwdDelete(item.id)} title="Delete Entry">
-          <MdDelete size='32' className="hover:bg-red-500 rounded transition-all"/>
-        </button>
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
-          <input {...register("name", {required: "This Field is required."})} placeholder='Name' defaultValue={item.name} />
-          <input {...register("website", {required: "This Field is required."})} placeholder='Website' defaultValue={item.website} />
-          <input {...register("username", {required: "This Field is required."})} placeholder='Username' defaultValue={item.username} />
-          <input {...register("password", {required: "This Field is required."})} placeholder='Password' defaultValue={item.password} />
-          <input {...register("comment", {required: "This Field is required."})} placeholder='Comment' defaultValue={item.comment} />
-          <button type="submit" className='ml-1 p-2' title="Validate Edit">
-            <MdDone size='32' className="hover:bg-green-500 rounded transition-all"/>
-          </button>
-          <button className='p-2' type='reset' onClick={() => setShowEdit(false)} title="Cancel Edit">
-            <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
-          </button>
-        </form>
-      </Modal>
+      {(showEdit)
+        ? <Modal open={showEdit}>
+            <button className='p-2' onClick={() => handlePwdDelete(item.id)} title="Delete Entry">
+              <MdDelete size='32' className="hover:bg-red-500 rounded transition-all"/>
+            </button>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>
+              <input {...register("name", {required: "This Field is required."})} placeholder='Name' defaultValue={item.name} />
+              <input {...register("website", {required: "This Field is required."})} placeholder='Website' defaultValue={item.website} />
+              <input {...register("username", {required: "This Field is required."})} placeholder='Username' defaultValue={item.username} />
+              <input {...register("password", {required: "This Field is required."})} placeholder='Password' defaultValue={item.password} />
+              <input {...register("comment", {required: "This Field is required."})} placeholder='Comment' defaultValue={item.comment} />
+              <button type="submit" className='ml-1 p-2' title="Validate Edit">
+                <MdDone size='32' className="hover:bg-green-500 rounded transition-all"/>
+              </button>
+              <button className='p-2' type='reset' onClick={() => setShowEdit(false)} title="Cancel Edit">
+                <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
+              </button>
+            </form>
+          </Modal>
+        : <></>
+    }      
     </>
   )
 }
