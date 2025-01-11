@@ -65,45 +65,51 @@ export default function FileCreate () {
         </button>
         {(showAddFile)
         ?   <Modal open={showAddFile}>
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 justify-center items-center">
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 justify-center items-center p-2 text-center">
+                    <h1 className="text-2xl">New File:</h1>
                     {/* File Name */}
-                    <input {...register("name", {required: "Enter File Name."})} placeholder='Name' required />
+                    <input {...register("name", {required: "Enter File Name."})} placeholder='Name'  className="indent-2" />
                     {/* Master Key */}
-                    <input {...register("masterKey", {required: "Enter Master Password."})} placeholder="masterKey" />
+                    <input {...register("masterKey", {required: "Enter Master Password."})} placeholder="MasterKey" className="indent-2"/>
                     {/* Password Generation */}
-                    <div className='flex flex-col gap-2'>
-                        <label htmlFor="params_length">Password Length</label>
-                        <input {...register("params_length", {required: "This Field is required.", min: 5, max: 40})} type="number" defaultValue={DEFAULT_PWD_GEN_PARAMS.length}/>
+                    <div className="w-full flex flex-col items-center gap-2 p-2 border-2 border-gray-500 rounded">
+                        <h3 className="text-lg">Password Generation Params: </h3>
+                        <div className='flex flex-row justify-center gap-2'>
+                            <label htmlFor="params_length">Length</label>
+                            <input {...register("params_length", {required: "This Field is required.", min: 5, max: 40})} className="text-center w-1/2" type="number" defaultValue={DEFAULT_PWD_GEN_PARAMS.length}/>
+                        </div>
+                        <div className="flex flex-col gap-2 w-3/4">
+                            <div className='flex justify-between'>
+                                <input {...register("params_setNumber")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setNumber}/>
+                                <label htmlFor="params_setNumber">Numbers (0-9)</label>
+                            </div>
+                            <div className='flex justify-between'>
+                                <input {...register("params_setUppercase")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setUppercase}/>
+                                <label htmlFor="params_setUppercase">Uppercase (A-Z)</label>
+                            </div>
+                            <div className='flex justify-between'>
+                                <input {...register("params_setLowercase")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setLowercase}/>
+                                <label htmlFor="params_setLowercase">Lowercase (a-z)</label>
+                            </div>
+                            <div className='flex justify-between'>
+                                <input {...register("params_setMinus")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setMinus}/>
+                                <label htmlFor="params_setMinus">Minus (-)</label>
+                            </div>
+                            <div className='flex justify-between'>
+                                <input {...register("params_setUnderline")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setUnderline}/>
+                                <label htmlFor="params_setUnderline">Underline (-)</label>
+                            </div>
+                            <div className='flex justify-between'>
+                                <input {...register("params_setSpecial")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setSpecial}/>
+                                <label htmlFor="params_setSpecial">Special (#,$,@,$...)</label>
+                            </div>
+                            <div className='flex justify-between'>
+                                <input {...register("params_setBrackets")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setBrackets}/>
+                                <label htmlFor="params_setBrackets">Brackets (&#91;,&#93;,&#123;,&#125;,...)</label>
+                            </div>
+                        </div>
                     </div>
-                    <div className='flex'>
-                        <input {...register("params_setNumber")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setNumber}/>
-                        <label htmlFor="params_setNumber">Numbers (0-9)</label>
-                    </div>
-                    <div className='flex'>
-                        <input {...register("params_setUppercase")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setUppercase}/>
-                        <label htmlFor="params_setUppercase">Uppercase (A-Z)</label>
-                    </div>
-                    <div className='flex'>
-                        <input {...register("params_setLowercase")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setLowercase}/>
-                        <label htmlFor="params_setLowercase">Lowercase (a-z)</label>
-                    </div>
-                    <div className='flex'>
-                        <input {...register("params_setMinus")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setMinus}/>
-                        <label htmlFor="params_setMinus">Minus (-)</label>
-                    </div>
-                    <div className='flex'>
-                        <input {...register("params_setUnderline")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setUnderline}/>
-                        <label htmlFor="params_setUnderline">Underline (-)</label>
-                    </div>
-                    <div className='flex'>
-                        <input {...register("params_setSpecial")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setSpecial}/>
-                        <label htmlFor="params_setSpecial">Special (#,$,@,$...)</label>
-                    </div>
-                    <div className='flex'>
-                        <input {...register("params_setBrackets")} type="checkbox" defaultChecked={DEFAULT_PWD_GEN_PARAMS.selectedSet.setBrackets}/>
-                        <label htmlFor="params_setBrackets">Brackets (&#91;,&#93;,&#123;,&#125;,...)</label>
-                    </div>
-                    <div className="flex justify-around">
+                    <div className="flex justify-around p-2 w-full">
                         <button type="submit" className='ml-1 p-2' title="Confirm">
                             <MdDone size='32' className="hover:bg-green-500 rounded transition-all"/>
                         </button>

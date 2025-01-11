@@ -19,4 +19,4 @@ ToDoList:
 17. [X] Add File Delete in account side menu.
 18. [X] Add null & undefined token check in authgard.
 19. [X] Use form mageul.
-20. [ ] Add master key check on file delete.
+20. [X] Add master key check on file delete.

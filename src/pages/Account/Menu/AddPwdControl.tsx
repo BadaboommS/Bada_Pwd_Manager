@@ -19,7 +19,7 @@ export default function AddPwdControl() {
     const [showPrivatePassword, setShowPrivatePassword] = useState(false);
     const [ showAddPwdForm, setShowAddPwdForm ] = useState(false);
 
-    const { register, handleSubmit, setValue, reset, formState } = useForm<PwdFormInput>({
+    const { register, handleSubmit, setValue, reset } = useForm<PwdFormInput>({
         defaultValues: {
             name: '',
             website: '',
@@ -53,10 +53,6 @@ export default function AddPwdControl() {
         const newPassword = generatePassword(fileParams);
         setValue('password', newPassword);
     }
-
-    useEffect(() => {
-        console.log(formState.isSubmitSuccessful);
-    }, [formState]);
 
     return (
         <>
