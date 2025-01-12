@@ -66,7 +66,7 @@ export default function FileCreate () {
         {(showAddFile)
         ?   <Modal open={showAddFile}>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 justify-center items-center p-2 text-center">
-                    <h1 className="text-2xl">New File:</h1>
+                    <h1 className="text-2xl">Create New File:</h1>
                     {/* File Name */}
                     <input {...register("name", {required: "Enter File Name."})} placeholder='Name'  className="indent-2" />
                     {/* Master Key */}
@@ -110,7 +110,7 @@ export default function FileCreate () {
                         </div>
                     </div>
                     <div className="flex justify-around p-2 w-full">
-                        <button type="submit" className='ml-1 p-2' title="Confirm">
+                        <button type="submit" className='p-2' title="Confirm">
                             <MdDone size='32' className="hover:bg-green-500 rounded transition-all"/>
                         </button>
                         <button className='p-2' type='reset' onClick={() => setShowAddFile(false)} title="Cancel">

@@ -21,9 +21,9 @@ export default function Login () {
             }
           </>
         : <div>
-            <FileMenu />
             <p>Storage Empty</p>
             <button> Add New storage file</button>
+            <FileMenu />
           </div>
       }
     </div>

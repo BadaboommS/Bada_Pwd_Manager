@@ -11,7 +11,7 @@ ToDoList:
 9. [X] Add file create.
 10. [ ] Rework data encryption for more security.
 11. [X] Remove Master key from active file (only needed in pwdcheck).
-12. [ ] Change File list Date display.
+12. [X] Change File list Date display.
 13. [X] Set active File storage after login ?
 14. [X] Find a better catch err debuging log.
 15. [X] Add token génération and check before set and get file data: Tokenverification(token) ? Return value : return null;
