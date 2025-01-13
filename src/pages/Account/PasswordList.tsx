@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import PasswordItem from './PasswordItem'
 import { PwdItem } from '../../types/pwdTypes'
 import { AccountContext } from '../../context/AccountContextProvider'
+import AddPwdControl from './Menu/AddPwdControl';
 
 export default function PasswordList() {
   const { passwordList, setPasswordList } = useContext(AccountContext);
@@ -43,8 +44,12 @@ export default function PasswordList() {
               </tbody>
             </table>         
           )         
-        : <div>
-            <p>Password List is empty !</p>
+        : <div className='flex flex-col items-center justify-center h-screen gap-2 p-2 text-2xl text-center'>
+            <h1>Password List is empty !</h1>
+            <p>Add a new password !</p>
+            <span className='flex gap-2 text-black'>
+              <AddPwdControl />
+            </span>
           </div>
       }
     </>

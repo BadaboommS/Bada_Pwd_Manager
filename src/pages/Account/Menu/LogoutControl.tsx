@@ -28,7 +28,7 @@ export default function LogoutControl() {
 
     return (
         <button title="Exit File" onClick={() => handleLogout()}>
-            <MdExitToApp size='32' className="bg-red-500 rounded"/>
+            <MdExitToApp size='42' className="text-red-500 hover:bg-red-500 hover:text-black rounded"/>
         </button>
     )
 }

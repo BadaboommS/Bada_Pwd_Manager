@@ -54,11 +54,11 @@ export default function SettingsControl() {
     return (
         <>
             <button title="Settings" onClick={() => setShowParamsModal(true)}>
-                <MdSettings size='32' className="hover:bg-gray-500 rounded transition-all"/>
+                <MdSettings size='42' className="text-gray-500 hover:bg-gray-500 hover:text-black rounded transition-all"/>
             </button>
             {(showParamsModal)
                 ?   <Modal open={showParamsModal}>
-                        <form className="flex flex-col gap-2 justify-center items-center p-2 text-center" onSubmit={handleSubmit(onSubmit)}>
+                        <form className="flex flex-col gap-2 justify-center items-center p-2 text-center text-lg" onSubmit={handleSubmit(onSubmit)}>
                             <h1 className="text-2xl">Change Password<br />Generation Parameters:</h1>
                             <div className="w-full flex flex-col items-center gap-2 p-2 border-2 border-gray-500 rounded">
                                 <div className='flex flex-col justify-center text-center gap-2'>
@@ -98,10 +98,10 @@ export default function SettingsControl() {
                             </div>
                             <div className='flex justify-around p-2 w-full'>
                                 <button type="submit" className='p-2' title="Confirm">
-                                    <MdSave size='32' className="hover:bg-green-500 rounded transition-all" />
+                                    <MdSave size='32' className="text-green-500 hover:bg-green-500 hover:text-black rounded transition-all" />
                                 </button>
                                 <button className='p-2' type='reset' onClick={() => setShowParamsModal(false)} title="Cancel">
-                                    <MdCancel size='32' className="hover:bg-red-500 rounded transition-all"/>
+                                    <MdCancel size='32' className="text-red-500 hover:bg-red-500 hover:text-black rounded transition-all"/>
                                 </button>
                             </div>
                         </form>

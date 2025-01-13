@@ -7,9 +7,16 @@ export default function SaveControl() {
     const { passwordList, changedSinceLastUpdate, setLastFetchedList } = useContext(AccountContext);
         
     function handlePasswordListChange(): void{
-        if(window.confirm("Confirm save ?") === false){
-            return null
+        if(changedSinceLastUpdate){
+            if(window.confirm("Save changes ?") === false){
+                return null
+            }
+        }else{
+            if(window.confirm("No change since last update, save anyway ?") === false){
+                return null
+            }
         }
+        
 
         window.electronAPI.setFilePwdData(passwordList, accountService.getToken());
         setLastFetchedList(passwordList);
@@ -17,7 +24,7 @@ export default function SaveControl() {
 
     return (
         <button title={changedSinceLastUpdate? "Save Password List (change detected)" : "Save Password List"} onClick={() => handlePasswordListChange()}>
-            <MdSave size='32' className={`${changedSinceLastUpdate? "text-yellow-500 hover:bg-green-500 " : "text-green-500"} rounded transition-all`} />
+            <MdSave size='42' className={`${changedSinceLastUpdate? "text-yellow-500 hover:bg-green-500 hover:text-black " : "text-green-500 hover:bg-green-500 hover:text-black"} rounded transition-all`} />
         </button>
     )
 }
