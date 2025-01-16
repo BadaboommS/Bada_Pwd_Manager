@@ -13,7 +13,7 @@ interface PwdItemPropsInterface{
   deletePasswordEntry: (id: number) => void
 }
 
-type PwdFormInput = {
+type PwdEditFormInput = {
   name: string,
   website: string,
   username: string,
@@ -27,8 +27,8 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
     const [showEdit, setShowEdit] = useState(false);
     const { fileParams } = useContext(AccountContext);
 
-    const { register, handleSubmit, setValue } = useForm<PwdFormInput>();
-    const onSubmit: SubmitHandler<PwdFormInput> = (data) => {
+    const { register, handleSubmit, setValue } = useForm<PwdEditFormInput>();
+    const onSubmit: SubmitHandler<PwdEditFormInput> = (data) => {
       if(window.confirm("Confirm Edit ?") === false){
         return null
       }
@@ -46,8 +46,8 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
       setShowEdit(false);
     }
 
-    function copyTextToClipboard(text: string) {
-        navigator.clipboard.writeText(text);
+    function copyTextToClipboard (text: string) {
+      window.electronAPI.clipboardCopy(text);
     }
 
     function handlePwdDelete(pwdId: number): void{
@@ -74,15 +74,11 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
         <td>{item.comment}</td>
         <td>
           <div className='flex justify-around'>
-            <button className='p-2' onClick={() => setShowPrivatePassword(!showPrivatePassword)} title={showPrivatePassword? "Hide" : "Show"}>
-              {showPrivatePassword? <TbEye size='32'/> : <TbEyeOff size='32'/>}
-            </button>
-            <button onClick={() => copyTextToClipboard(item.password)} title="Copy">
-              <MdCopyAll size='32'/>
-            </button>
-            <button className='p-2' onClick={() => setShowEdit(!showEdit)} title="Edit">
-              <MdEditSquare size='32'/>
-            </button>
+            {showPrivatePassword
+              ? <TbEye size='32' title="Hide" className='cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}/> 
+              : <TbEyeOff size='32' title="Show" className='cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}/>}
+          <MdCopyAll size='32' title="Copy Password" className='cursor-pointer' onClick={() => copyTextToClipboard(item.password)} />
+            <MdEditSquare size='32' title="Edit" className='cursor-pointer' onClick={() => setShowEdit(!showEdit)} />
           </div>
         </td>
       </tr>
@@ -118,7 +114,7 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
                     </div>
                   <div className='flex justify-around'>
                       <span className='p-2 cursor-pointer' onClick={() => setShowEditPassword(!showEditPassword)}>
-                          {showPrivatePassword? <TbEye size='24' title="Hide"/> : <TbEyeOff size='24' title="Show"/>}
+                          {showEditPassword? <TbEye size='24' title="Hide"/> : <TbEyeOff size='24' title="Show"/>}
                       </span>
                       <span className='p-2 cursor-pointer' onClick={() => setValue('password', generatePassword(fileParams))}>
                           <MdAutorenew size='24' title='Generate New Password' />

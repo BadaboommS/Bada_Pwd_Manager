@@ -109,3 +109,7 @@ ipcMain.on("setFileParams", (e, newParams: ParamsInterface, token: string) => {
     mainServiceInfo.writeUserParams(newParams);
   }
 });
+
+ipcMain.on("clipboardCopy", (e, text: string) => {
+  mainServiceFile.copyText(text);
+})

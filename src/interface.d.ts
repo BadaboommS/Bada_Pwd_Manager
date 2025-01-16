@@ -8,7 +8,8 @@ export interface IElectronAPI {
     setFilePwdData: (value: PwdArray, token: string) => Promise<void>,
     setFileParams: (newParams: ParamsInterface, token: string) => void,
     createNewFile: (newFileData: NewFileInterface) => void,
-    deleteFile: (fileName: string) => void
+    deleteFile: (fileName: string) => void,
+    clipboardCopy: (text: string) => void,
 
     // Main.handle
     getStorageFileData: () => Promise<StorageDataInfoInterface[]>,

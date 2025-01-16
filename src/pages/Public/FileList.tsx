@@ -80,7 +80,7 @@ export default function FileList() {
                 :   <></>
             }
             {(showDeleteModal)
-                ?   <Modal open={showDeleteModal}>
+                ?   <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
                         <div className='flex flex-col gap-2'>
                             <p>Are you sure you want to delete file : {deleteFile} ?</p>
                             <div className='flex flex-col gap-2'>

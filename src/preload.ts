@@ -14,6 +14,7 @@ if(process.contextIsolated){
             setFileParams: (newParams: ParamsInterface, token: string) => ipcRenderer.send("setFileParams", newParams, token),
             createNewFile: (newFileData: NewFileInterface) => ipcRenderer.send("createNewFile", newFileData),
             deleteFile: (fileName: string) => ipcRenderer.send("deleteFile", fileName),
+            clipboardCopy: (text: string) => ipcRenderer.send("clipboardCopy", text),
 
             // Main.handle
             getStorageFileData: () => ipcRenderer.invoke("getStorageFileData"),

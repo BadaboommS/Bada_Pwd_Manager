@@ -1,10 +1,11 @@
-import { app, safeStorage } from 'electron';
+import { app, safeStorage, clipboard } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { randomBytes } from 'crypto';
 import { activeFileService } from './activeFile.service';
 import { StorageDataInfoInterface, ActiveFileInterface, FullFileInterface, ParamsInterface, NewFileInterface } from '../types/mainProcessTypes';
 import { PwdArray } from '../types/pwdTypes';
+
 
 // General un-exported Functions
 function initMkdir(): void{
@@ -171,6 +172,15 @@ function getStorageFilesInfo(): StorageDataInfoInterface[]{
     }
 }
 
+function copyText(text: string): void{
+    try{
+        clipboard.writeText(text);
+    }catch(err){
+        logError(err);
+        return null;
+    }
+}
+
 // Data Service
 function checkToken(token: string): boolean{
     try{
@@ -265,7 +275,7 @@ function writeUserParams(params: ParamsInterface){
 
 
 export const mainServiceFile = {
-    isEncryptionAvailable, createStorageFile, deleteStorageFile, getStorageFilesInfo
+    isEncryptionAvailable, createStorageFile, deleteStorageFile, getStorageFilesInfo, copyText
 }
 
 export const mainServiceInfo = {
