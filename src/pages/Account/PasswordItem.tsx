@@ -59,11 +59,6 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
       deletePasswordEntry(pwdId);
     }
 
-    function getNewPassword(): void{
-      const newPassword = generatePassword(fileParams);
-      setValue('password', newPassword);
-    }
-      
   return (
     <>
       <tr>
@@ -122,10 +117,10 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
                         <input {...register("comment", {required: "This Field is required."})} placeholder='Comment' className='indent-2' defaultValue={item.comment} />
                     </div>
                   <div className='flex justify-around'>
-                      <span className='p-2 cursor-pointer' onClick={() => setShowEditPassword(!showEditPassword)} title={showEditPassword? "Hide" : "Show"}>
-                          {showPrivatePassword? <TbEye size='24'/> : <TbEyeOff size='24'/>}
+                      <span className='p-2 cursor-pointer' onClick={() => setShowEditPassword(!showEditPassword)}>
+                          {showPrivatePassword? <TbEye size='24' title="Hide"/> : <TbEyeOff size='24' title="Show"/>}
                       </span>
-                      <span className='p-2 cursor-pointer' onClick={() => getNewPassword()}>
+                      <span className='p-2 cursor-pointer' onClick={() => setValue('password', generatePassword(fileParams))}>
                           <MdAutorenew size='24' title='Generate New Password' />
                       </span>
                   </div>

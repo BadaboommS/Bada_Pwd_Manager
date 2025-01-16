@@ -57,7 +57,7 @@ export default function SettingsControl() {
                 <MdSettings size='42' className="text-gray-500 hover:bg-gray-500 hover:text-black rounded transition-all"/>
             </button>
             {(showParamsModal)
-                ?   <Modal open={showParamsModal}>
+                ?   <Modal isOpen={showParamsModal} onClose={() => setShowParamsModal(false)}>
                         <form className="flex flex-col gap-2 justify-center items-center p-2 text-center text-lg" onSubmit={handleSubmit(onSubmit)}>
                             <h1 className="text-2xl">Change Password<br />Generation Parameters:</h1>
                             <div className="w-full flex flex-col items-center gap-2 p-2 border-2 border-gray-500 rounded">

@@ -49,11 +49,6 @@ export default function AddPwdControl() {
         setShowAddPwdForm(false);
     }
 
-    function getNewPassword(): void{
-        const newPassword = generatePassword(fileParams);
-        setValue('password', newPassword);
-    }
-
     return (
         <>
             <button title="Add New Password" onClick={() => setShowAddPwdForm(true)} >
@@ -86,10 +81,10 @@ export default function AddPwdControl() {
                                     <input {...register("comment")} placeholder='Comment' className='indent-2'/>
                                 </div>
                                 <div className='flex justify-around'>
-                                    <span className='p-2 cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)} title={showPrivatePassword? "Hide" : "Show"}>
-                                        {showPrivatePassword? <TbEye size='24'/> : <TbEyeOff size='24'/>}
+                                    <span className='p-2 cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}>
+                                        {showPrivatePassword? <TbEye size='24' title="Hide"/> : <TbEyeOff size='24' title="Show"/>}
                                     </span>
-                                    <span className='p-2 cursor-pointer' onClick={() => getNewPassword()}>
+                                    <span className='p-2 cursor-pointer' onClick={() => setValue('password', generatePassword(fileParams))}>
                                         <MdAutorenew size='24' title='Generate New Password' />
                                     </span>
                                 </div>

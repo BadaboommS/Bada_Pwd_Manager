@@ -32,8 +32,8 @@ export default function FileLogin() {
                     setLoadingModal(false);
                 }else{
                     accountService.saveToken(token);
-                    setShowLogin(false);
                     reset();
+                    setShowLogin(false);
                     navigate("/account", {replace: true});
                 }
             })
@@ -69,18 +69,8 @@ export default function FileLogin() {
                     </div>
                 </form>
             </div>
-            {fetchError? 
-                <div className='fixed bottom-2 w-full flex flex-col justify-center items-center bg-red-500 rounded text-white'>
-                    <p>Erreur lors de la connexion</p>
-                    <p>- Veuillez réessayer -</p>
-                </div>
-            :
-                <></>
-            }
-            {loadingModal
-                ? <div className="lds-dual-ring"></div>
-                : <></>
-            }
+            {loadingModal && <p>Loading...</p>}
+            {fetchError && <p>Error logging in. Please try again.</p>}
         </Modal>
   )
 }
