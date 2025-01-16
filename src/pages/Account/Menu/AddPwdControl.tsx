@@ -60,16 +60,31 @@ export default function AddPwdControl() {
                 <MdAdd size='42' className="text-green-500 hover:bg-green-500 hover:text-black rounded transition-all"/>
             </button>
             {(showAddPwdForm)
-                ?   <Modal open={showAddPwdForm}>
-                        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center gap-2 p-2 text-lg' key={new Date().getTime()}>
+                ?   <Modal isOpen={showAddPwdForm} onClose={() => setShowAddPwdForm(false)}>
+                        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center gap-2 p-2 text-lg'>
                             <h1 className='text-2xl text-center'>Add New Password</h1>
                             <div className="w-3/4 h-px border-black border"></div>
                             <div className='flex flex-col gap-2 p-2 border-2 border-gray-500 rounded'>
-                                <input {...register("name", {required: "This Field is required."})} placeholder='Name' className='indent-2' />
-                                <input {...register("website", {required: "This Field is required."})} placeholder='Website' className='indent-2' />
-                                <input {...register("username", {required: "This Field is required."})} placeholder='Username' className='indent-2' />
-                                <input {...register("password", {required: "This Field is required."})} className={`${showPrivatePassword? '' : 'password_field'} indent-2`} placeholder='Password'/>
-                                <input {...register("comment")} placeholder='Comment' className='indent-2'/>
+                                <div className='flex flex-row gap-1'>
+                                    <label htmlFor="name">Name:</label>
+                                    <input {...register("name", {required: "This Field is required."})} placeholder='Name' className='indent-2' />
+                                </div>
+                                <div className='flex flex-row gap-1'>
+                                    <label htmlFor="website">Website:</label>
+                                    <input {...register("website", {required: "This Field is required."})} placeholder='Website' className='indent-2' />
+                                </div>
+                                <div className='flex flex-row gap-1'>
+                                    <label htmlFor="username">Username:</label>
+                                    <input {...register("username", {required: "This Field is required."})} placeholder='Username' className='indent-2' />
+                                </div>
+                                <div className='flex flex-row gap-1'>
+                                    <label htmlFor="password">Password:</label>
+                                    <input {...register("password", {required: "This Field is required."})} className={`${showPrivatePassword? '' : 'password_field'} indent-2`} placeholder='Password'/>
+                                </div>
+                                <div className='flex flex-row gap-1'>
+                                    <label htmlFor="comment">Notes:</label>
+                                    <input {...register("comment")} placeholder='Comment' className='indent-2'/>
+                                </div>
                                 <div className='flex justify-around'>
                                     <span className='p-2 cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)} title={showPrivatePassword? "Hide" : "Show"}>
                                         {showPrivatePassword? <TbEye size='24'/> : <TbEyeOff size='24'/>}

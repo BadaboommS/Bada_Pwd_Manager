@@ -64,7 +64,7 @@ export default function FileCreate () {
             <MdAdd size='42' className="text-green-500 hover:bg-green-500 hover:text-black rounded transition-all"/>
         </button>
         {(showAddFile)
-        ?   <Modal open={showAddFile}>
+        ?   <Modal isOpen={showAddFile} onClose={() => setShowAddFile(false)}>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 justify-center items-center p-2 text-center text-lg">
                     <h1 className="text-2xl">Create New File:</h1>
                     <div className="w-3/4 h-px border-black border"></div>

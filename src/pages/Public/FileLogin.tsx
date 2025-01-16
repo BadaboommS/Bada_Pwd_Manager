@@ -56,7 +56,7 @@ export default function FileLogin() {
     }, [selectedFile]);
 
     return (
-        <Modal open={showLogin} key={`${showLogin}-${selectedFile}`}>
+        <Modal isOpen={showLogin} onClose={() => setShowLogin(false)}>
             <div className='w-full h-full flex items-center justify-center'>
                 <form onSubmit={handleSubmit(onSubmit)} className='bg-slate-400 rounded-md p-5 gap-5 border border-solid border-black flex flex-col items-center' >
                     <h2 className='text-2xl text-center'>Login<br/>File: {selectedFile}</h2>

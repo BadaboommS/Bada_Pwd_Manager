@@ -25,7 +25,6 @@ export default function PasswordList() {
       {(passwordList[0])
         ? (
             <table className='border border-solid border-white border-collapse border-spacing-1 text-left'>
-              <caption>Password List</caption>
               <thead>
                 <tr>
                   <th>N°</th>

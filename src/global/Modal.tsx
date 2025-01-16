@@ -1,25 +1,51 @@
 import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
-const Modal = ({ open, children } : {open: boolean, children: React.ReactNode}) => {
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+}
+
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
+    // Focus on first input when modal is opened
     useEffect(() => {
-        if (open && modalRef.current) {
+        if (isOpen && modalRef.current) {
             const firstInput = modalRef.current.querySelector('input');
             if (firstInput) {
                 (firstInput as HTMLInputElement).focus();
             }
         }
-    }, [open]);
+    }, [isOpen]);
 
-    if(!open) return null;
+    // Close modal when pressing escape key
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') {
+            onClose();
+          }
+        };
+    
+        document.addEventListener('keydown', handleEscape);
+        return () => {
+          document.removeEventListener('keydown', handleEscape);
+        };
+      }, [onClose]);
 
-    return (
-        <div key={new Date().getTime()} className='fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,0.7)] flex justify-center items-center p-2'>
-            <div ref={modalRef} className='max-w-md h-fit bg-white rounded p-2'>
+    if(!isOpen) return null;
+
+    const modalRoot = document.getElementById('modal_portal');
+    if(!modalRoot) return null;
+
+    return ReactDOM.createPortal(
+        <div className="modal-overlay" onClick={onClose}>
+            <div ref={modalRef} className="modal-content" onClick={(e) => e.stopPropagation()}>
                 { children }
             </div>
-        </div>
+        </div>,
+        modalRoot
     )
 }
 
