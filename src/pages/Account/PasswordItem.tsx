@@ -27,6 +27,7 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
     const [showPrivatePassword, setShowPrivatePassword] = useState(false);
     const [showEditPassword, setShowEditPassword] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [isCopyDisabled, setIsCopyDisabled] = useState(false);
     const { fileParams } = useContext(AccountContext);
 
     const { register, handleSubmit, setValue } = useForm<PwdEditFormInput>();
@@ -49,8 +50,13 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
     }
 
     function copyTextToClipboard (e: React.MouseEvent, text: string, itemName: string): void {
+      if(isCopyDisabled) return null;
+
       window.electronAPI.clipboardCopy(text);
       showPopup(e.clientX, e.clientY, itemName);
+
+      setIsCopyDisabled(true);
+      setTimeout(() => setIsCopyDisabled(false), 4000);
     }
 
     function handlePwdDelete(pwdId: number): void{

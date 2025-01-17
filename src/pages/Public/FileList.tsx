@@ -52,7 +52,7 @@ export default function FileList() {
         setDeleteFile(selectedFile);
     }
 
-    function cancelDeleteModal():void {
+    function cancelDeleteModal(): void {
         setShowDeleteModal(false);
         setDeleteFile('');
     }
