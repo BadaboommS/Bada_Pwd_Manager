@@ -6,7 +6,7 @@ ToDoList:
 4. [X] Add Generate Password in front + Generate password params save.
 5. [X] Logout button in account.
 6. [ ] Fix some text input not working on second use. -> FormState is "Submited" even second modal open.
-7. [ ] Add File List css.
+7. [ ] Rework File List css.
 8. [X] Add more File List Info.
 9. [X] Add file create.
 10. [ ] Rework data encryption for more security.
@@ -20,3 +20,4 @@ ToDoList:
 18. [X] Add null & undefined token check in authgard.
 19. [X] Use form mageul.
 20. [X] Add master key check on file delete.
+21. [ ] Add "Copied" Popup effect.

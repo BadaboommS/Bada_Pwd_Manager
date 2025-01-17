@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TbEyeOff, TbEye } from "react-icons/tb";
 import { MdCancel, MdDelete, MdDone, MdEditSquare, MdCopyAll, MdAutorenew  } from "react-icons/md";
+import { TbEyeOff, TbEye } from "react-icons/tb";
 import { AccountContext } from '../../context/AccountContextProvider';
-import { generatePassword } from '../../utils/generatePassword';
-import { PwdItem } from '../../types/pwdTypes';
 import Modal from '../../global/Modal';
+
+import { generatePassword } from '../../utils/generatePassword';
+import { showPopup } from '../../global/showPopup';
+import { PwdItem } from '../../types/pwdTypes';
 
 interface PwdItemPropsInterface{
   item: PwdItem,
@@ -46,8 +48,9 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
       setShowEdit(false);
     }
 
-    function copyTextToClipboard (text: string) {
+    function copyTextToClipboard (e: React.MouseEvent, text: string, itemName: string): void {
       window.electronAPI.clipboardCopy(text);
+      showPopup(e.clientX, e.clientY, itemName);
     }
 
     function handlePwdDelete(pwdId: number): void{
@@ -63,12 +66,12 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
     <>
       <tr>
         <td>{item.id + 1}</td>
-        <td>{item.name}</td>
-        <td>{item.website}</td>
-        <td>{item.username}</td>
+        <td onClick={(e) => copyTextToClipboard(e, item.name, "Entry Name")} className="hover:cursor-pointer">{item.name}</td>
+        <td onClick={(e) => copyTextToClipboard(e, item.website, "Website")} className="hover:cursor-pointer">{item.website}</td>
+        <td onClick={(e) => copyTextToClipboard(e, item.username, "Username")} className="hover:cursor-pointer">{item.username}</td>
         <td>
           <div className='flex justify-around'>
-            <p className={showPrivatePassword? '' : 'password_field'}>{item.password}</p>
+            <p onClick={(e) => copyTextToClipboard(e, item.password, "Password")} className={`${showPrivatePassword? '' : 'password_field'} hover:cursor-pointer`}>{item.password}</p>
           </div>
         </td>
         <td>{item.comment}</td>
@@ -77,7 +80,6 @@ export default function PasswordItem({ item = null, editPasswordEntry, deletePas
             {showPrivatePassword
               ? <TbEye size='32' title="Hide" className='cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}/> 
               : <TbEyeOff size='32' title="Show" className='cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}/>}
-          <MdCopyAll size='32' title="Copy Password" className='cursor-pointer' onClick={() => copyTextToClipboard(item.password)} />
             <MdEditSquare size='32' title="Edit" className='cursor-pointer' onClick={() => setShowEdit(!showEdit)} />
           </div>
         </td>
