@@ -20,4 +20,5 @@ ToDoList:
 18. [X] Add null & undefined token check in authgard.
 19. [X] Use form mageul.
 20. [X] Add master key check on file delete.
-21. [ ] Add "Copied" Popup effect.
+21. [X] Add "Copied" Popup effect.
+22. [ ] Add password sorting.

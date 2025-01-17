@@ -69,7 +69,7 @@ export default function FileLogin() {
                     </div>
                 </form>
             </div>
-            {loadingModal && <p>Loading...</p>}
+            {loadingModal && <div className="lds-dual-ring"></div>}
             {fetchError && <p>Error logging in. Please try again.</p>}
         </Modal>
   )

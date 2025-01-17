@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form";
-import { MdCancel, MdDelete, MdDone, MdEditSquare, MdCopyAll, MdAutorenew  } from "react-icons/md";
+import { MdCancel, MdDelete, MdDone, MdEditSquare, MdAutorenew  } from "react-icons/md";
 import { TbEyeOff, TbEye } from "react-icons/tb";
 import { AccountContext } from '../../context/AccountContextProvider';
 import Modal from '../../global/Modal';
