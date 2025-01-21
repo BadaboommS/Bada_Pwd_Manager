@@ -20,6 +20,7 @@ export default function SearchPwdControl({ onSearch }: SearchPwdControlProps) {
                 value={query}
                 onChange={handleInputChange}
                 placeholder="Search password entry..."
+                className='w-full p-2 text-lg border border-solid border-white border-collapse border-spacing-1 text-black'
             />
         </div>
     );
