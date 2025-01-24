@@ -13,7 +13,7 @@ export default function AddPwdControl() {
             </button>
             {(showAddPwdForm)
                 ?   <Modal isOpen={showAddPwdForm} onClose={() => setShowAddPwdForm(false)}>   
-                        <AddPwdForm setShow={setShowAddPwdForm}/>
+                        <AddPwdForm setShowAddPwdForm={setShowAddPwdForm}/>
                     </Modal>
 
                 :   <></>
