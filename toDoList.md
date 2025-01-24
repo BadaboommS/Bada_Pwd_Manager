@@ -21,4 +21,4 @@ ToDoList:
 19. [X] Use form mageul.
 20. [X] Add master key check on file delete.
 21. [X] Add "Copied" Popup effect.
-22. [ ] Add password sorting.
+22. [X] Add password sorting.

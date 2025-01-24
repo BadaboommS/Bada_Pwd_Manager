@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
     if(!isOpen) return null;
 
-    const modalRoot = document.getElementById('modal_portal');
+    const modalRoot = document.body;
     if(!modalRoot) return null;
 
     return ReactDOM.createPortal(
