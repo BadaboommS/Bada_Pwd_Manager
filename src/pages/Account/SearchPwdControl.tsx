@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-interface SearchPwdControlProps {
+interface SearchPwdControlPropsInterface {
     onSearch: (query: string) => void;
 }
 
-export default function SearchPwdControl({ onSearch }: SearchPwdControlProps) {
+export default function SearchPwdControl({ onSearch }: SearchPwdControlPropsInterface) {
     const [query, setQuery] = useState('');
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

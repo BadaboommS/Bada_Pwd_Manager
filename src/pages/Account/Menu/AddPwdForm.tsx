@@ -5,7 +5,7 @@ import { TbEyeOff, TbEye } from "react-icons/tb";
 import { AccountContext } from '../../../context/AccountContextProvider';
 import { generatePassword } from '../../../utils/generatePassword';
 
-interface AddPwdFormProps {
+interface AddPwdFormPropsInterface {
     setShowAddPwdForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -17,7 +17,7 @@ type PwdFormInput = {
     comment: string
 }
 
-export default function AddPwdForm({ setShowAddPwdForm } : AddPwdFormProps) {
+export default function AddPwdForm({ setShowAddPwdForm } : AddPwdFormPropsInterface) {
     const { passwordList, setPasswordList, fileParams } = useContext(AccountContext);
     const [showPrivatePassword, setShowPrivatePassword] = useState(false);
 

@@ -1,17 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from 'react-router';
 import { GeneralContext } from '../../context/GeneralContextProvider';
 import { accountService } from '../../services/account.service';
-import Modal from '../../global/Modal';
+
+interface FileLoginPropsInterface {
+    setShowLogin: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 type LoginFormInput = {
     password: string
 }
 
-export default function FileLogin() {
+export default function FileLogin({ setShowLogin } : FileLoginPropsInterface) {
     const { selectedFile, setSelectedFile } = useContext(GeneralContext);
-    const [showLogin, setShowLogin] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [fetchError, setFetchError] = useState(false);
     const navigate = useNavigate();
@@ -49,14 +51,8 @@ export default function FileLogin() {
         setSelectedFile('');
     }
 
-    useEffect(() => {
-        if(!showLogin && selectedFile !== ""){
-            setShowLogin(true);
-        }
-    }, [selectedFile]);
-
     return (
-        <Modal isOpen={showLogin} onClose={() => setShowLogin(false)}>
+        <>
             <div className='w-full h-full flex items-center justify-center'>
                 <form onSubmit={handleSubmit(onSubmit)} className='bg-slate-400 rounded-md p-5 gap-5 border border-solid border-black flex flex-col items-center' >
                     <h2 className='text-2xl text-center'>Login<br/>File: {selectedFile}</h2>
@@ -71,6 +67,6 @@ export default function FileLogin() {
             </div>
             {loadingModal && <div className="lds-dual-ring"></div>}
             {fetchError && <p>Error logging in. Please try again.</p>}
-        </Modal>
-  )
+        </>
+    )
 }

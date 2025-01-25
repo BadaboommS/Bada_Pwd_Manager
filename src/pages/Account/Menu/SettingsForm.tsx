@@ -5,7 +5,7 @@ import { AccountContext } from '../../../context/AccountContextProvider';
 import { accountService } from '../../../services/account.service';
 import { ParamsInterface } from '../../../types/mainProcessTypes';
 
-interface SettingsFormProps {
+interface SettingsFormPropsInterface {
     setShowParamsModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -20,7 +20,7 @@ type ParamsFormInput = {
     params_setBrackets: boolean
 }
 
-export default function SettingsForm({ setShowParamsModal } : SettingsFormProps) {
+export default function SettingsForm({ setShowParamsModal } : SettingsFormPropsInterface) {
     const { fileParams, setFileParams } = useContext(AccountContext);
     const { register, handleSubmit, reset } = useForm<ParamsFormInput>();
 
