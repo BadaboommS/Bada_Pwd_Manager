@@ -8,21 +8,8 @@ interface PasswordListProps {
 }
 
 export default function PasswordList({ sortQuery }: PasswordListProps) {
-  const { passwordList, setPasswordList } = useContext(AccountContext);
+  const { passwordList } = useContext(AccountContext);
   const [ sortedPasswordList, setSortedPasswordList ] = useState([]);
-      
-  function editPasswordEntry( editedPwd: PwdItem ): void{
-    const newPwdArray = [...passwordList];
-    const editPwdIndex = newPwdArray.findIndex((obj:PwdItem) => obj.id === editedPwd.id);
-    newPwdArray[editPwdIndex] = editedPwd;
-    setPasswordList(newPwdArray);
-  }
-
-  function deletePasswordEntry( deletePwdId: number ): void{
-    const pwdList = [...passwordList];
-    const newPwdArray = pwdList.filter((obj: PwdItem) => obj.id !== deletePwdId);
-    setPasswordList(newPwdArray);
-  }
 
   useEffect(() => {
     if (sortQuery !== '') {
@@ -53,7 +40,7 @@ export default function PasswordList({ sortQuery }: PasswordListProps) {
         </thead>
         <tbody>
           {sortedPasswordList.map((pwd: PwdItem, i: number) => {
-                return (pwd !== null) ? <PasswordItem item={pwd} key={i} editPasswordEntry={editPasswordEntry} deletePasswordEntry={deletePasswordEntry} /> : <></>
+                return (pwd !== null) ? <PasswordItem item={pwd} key={i} /> : <></>
           })}
         </tbody>
       </table>
