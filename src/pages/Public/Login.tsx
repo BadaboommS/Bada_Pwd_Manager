@@ -3,7 +3,7 @@ import { PublicContext } from '../../context/PublicContextProvider';
 import { GeneralContext } from '../../context/GeneralContextProvider';
 import FileMenu from './FileMenu/FileMenu';
 import FileList from './FileList';
-import FileLogin from './FileLogin';
+import FileLoginForm from './FileLoginForm';
 import Modal from '../../global/Modal';
 
 export default function Login () {
@@ -26,7 +26,7 @@ export default function Login () {
             <FileList/>
             {(showLogin)
               ? <Modal isOpen={showLogin} onClose={() => setShowLogin(false)}>
-                  <FileLogin setShowLogin={setShowLogin}/>
+                  <FileLoginForm setShowLogin={setShowLogin}/>
                 </Modal> 
               : <></>
             }

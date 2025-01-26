@@ -12,7 +12,7 @@ type LoginFormInput = {
     password: string
 }
 
-export default function FileLogin({ setShowLogin } : FileLoginPropsInterface) {
+export default function FileLoginForm ({ setShowLogin } : FileLoginPropsInterface) {
     const { selectedFile, setSelectedFile } = useContext(GeneralContext);
     const [loadingModal, setLoadingModal] = useState(false);
     const [fetchError, setFetchError] = useState(false);

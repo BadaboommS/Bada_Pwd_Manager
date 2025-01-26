@@ -40,7 +40,7 @@ export default function PasswordItem({ item = null }: PwdItemPropsInterface) {
         <td>{item.comment}</td>
         <td>
           <div className='flex justify-around'>
-            {showPrivatePassword
+            {(showPrivatePassword)
               ? <TbEye size='32' title="Hide" className='cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}/> 
               : <TbEyeOff size='32' title="Show" className='cursor-pointer' onClick={() => setShowPrivatePassword(!showPrivatePassword)}/>}
             <MdEditSquare size='32' title="Edit" className='cursor-pointer' onClick={() => setShowEdit(!showEdit)} />
@@ -52,7 +52,7 @@ export default function PasswordItem({ item = null }: PwdItemPropsInterface) {
             <PasswordEditForm item={item} setShowEdit={setShowEdit} />
           </Modal>
         : <></>
-    }      
+      }
     </>
   )
 }
