@@ -20,7 +20,12 @@ function initMkdir(): void{
 }
 
 function getStoragePath(file = ''): string{
-    return path.join(app.getPath('userData'), `DataStorage/${file}`);
+    try{
+        return path.join(app.getPath('userData'), `DataStorage/${file}`);
+    }catch(err){
+        logError(err);
+        return null;
+    }
 }
 
 function logError(error: unknown) {
@@ -48,12 +53,18 @@ function isDataStored(file = ""): boolean{
         return(filePath !== null || filePath !== undefined);
     }catch(err){
         logError(err);
-        return null
+        return null;
     }
 }
 
 function generateToken(): string{
-    return randomBytes(32).toString('hex');
+    try{
+        return randomBytes(32).toString('hex');
+    }catch(err){
+        logError(err);
+        return null;
+    }
+    
 }
 
 function encryptData(data: string): Buffer{
@@ -89,7 +100,7 @@ function writeUserData(stringData: string, file: string): void{
         fs.writeFileSync(getStoragePath(file), encryptedData);
     }catch(err){
         logError(err);
-        return null
+        return null;
     }
 }
 
@@ -101,7 +112,7 @@ function getEncryptedInfo<K extends keyof FullFileInterface>(objectKey: K, fileN
         const encryptedData = readUserData(fileName);
     
         if(encryptedData === null){
-            return null
+            return null;
         }else{
             if(isEncryptionAvailable()){
                 const decryptedString = decryptData(encryptedData);
@@ -111,7 +122,7 @@ function getEncryptedInfo<K extends keyof FullFileInterface>(objectKey: K, fileN
         }
         }catch(err){
             logError(err);
-            return null
+            return null;
         }
 }
 
@@ -188,7 +199,7 @@ function checkToken(token: string): boolean{
         return token === activeToken;
     }catch(err){
         logError(err);
-        return null
+        return null;
     }
 }
 
@@ -197,7 +208,7 @@ function getFileEncryptedInfo(selectedFile: string): ActiveFileInterface {
         const encryptedData = readUserData(selectedFile);
     
         if(encryptedData === null){
-            return null
+            return null;
         }else{
             if(isEncryptionAvailable()){
             const decryptedString = decryptData(encryptedData);
@@ -207,7 +218,7 @@ function getFileEncryptedInfo(selectedFile: string): ActiveFileInterface {
         }
         }catch(err){
             logError(err);
-            return null
+            return null;
         }
 }
 
@@ -223,7 +234,7 @@ function checkMasterKey(encodedKey: string, fileName: string): string{
         }
     }catch(err){
         logError(err);
-        return null
+        return null;
     }
     
 }
