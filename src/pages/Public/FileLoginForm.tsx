@@ -34,8 +34,7 @@ export default function FileLoginForm ({ setShowLogin } : FileLoginPropsInterfac
                     setLoadingModal(false);
                 }else{
                     accountService.saveToken(token);
-                    reset();
-                    setShowLogin(false);
+                    handleFileLoginCancel();
                     navigate("/account", {replace: true});
                 }
             })
@@ -47,6 +46,7 @@ export default function FileLoginForm ({ setShowLogin } : FileLoginPropsInterfac
     }
 
     function handleFileLoginCancel(): void{
+        reset();
         setShowLogin(false);
         setSelectedFile('');
     }

@@ -25,27 +25,18 @@ export default function PasswordEditForm({ item, setShowEdit }: PwdItemPropsInte
     const [showEditPassword, setShowEditPassword] = useState(false);
     const { fileParams } = useContext(AccountContext);
 
-    const { register, handleSubmit, setValue } = useForm<PwdEditFormInput>();
+    const { register, handleSubmit, setValue, reset } = useForm<PwdEditFormInput>();
+    
     const onSubmit: SubmitHandler<PwdEditFormInput> = (data) => {
         if(window.confirm("Confirm Edit ?") === false){
             return null
         }
 
-        const editedPwd: PwdItem = {
-            id: item.id,
-            name: data.name,
-            website: data.website,
-            username: data.username,
-            password: data.password,
-            comment: data.comment
-        }
-
-        const newPwdArray = [...passwordList];
-        const editPwdIndex = newPwdArray.findIndex((obj: PwdItem) => obj.id === editedPwd.id);
-        newPwdArray[editPwdIndex] = editedPwd;
+        const editedPwd: PwdItem = { id: item.id, ...data };
+        const newPwdArray = passwordList.map((obj: PwdItem) => obj.id === editedPwd.id ? editedPwd : obj );
         setPasswordList(newPwdArray);
 
-        setShowEdit(false);
+        handleModalClose();
     }
 
     function handlePwdDelete(deletePwdId: number): void{
@@ -53,12 +44,15 @@ export default function PasswordEditForm({ item, setShowEdit }: PwdItemPropsInte
           return null
         }
         
-        const pwdList = [...passwordList];
-        const newPwdArray = pwdList.filter((obj: PwdItem) => obj.id !== deletePwdId);
-        setPasswordList(newPwdArray);
+        setPasswordList(passwordList.filter((obj: PwdItem) => obj.id !== deletePwdId));
 
-        setShowEdit(false);
+        handleModalClose();
       }
+
+    function handleModalClose() {
+        reset();
+        setShowEdit(false);
+    }
 
   return (
     <span className='flex flex-col items-center'>

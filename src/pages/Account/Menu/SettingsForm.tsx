@@ -48,6 +48,7 @@ export default function SettingsForm({ setShowParamsModal } : SettingsFormPropsI
         
         setFileParams(newParams);
         window.electronAPI.setFileParams(newParams, accountService.getToken());
+        
         handleModalClose();
     }
 

@@ -21,7 +21,7 @@ export default function AddPwdForm({ setShowAddPwdForm } : AddPwdFormPropsInterf
     const { passwordList, setPasswordList, fileParams } = useContext(AccountContext);
     const [showPrivatePassword, setShowPrivatePassword] = useState(false);
 
-    const { register, handleSubmit, setValue, reset } = useForm<PwdFormInput>({
+    const { register, handleSubmit, setValue, reset} = useForm<PwdFormInput>({
         defaultValues: {
             name: '',
             website: '',
@@ -38,18 +38,12 @@ export default function AddPwdForm({ setShowAddPwdForm } : AddPwdFormPropsInterf
 
         const newPwd = {
             id: passwordList[0]? passwordList[passwordList.length - 1].id + 1 : 0,
-            name: data.name,
-            website: data.website,
-            username: data.username,
-            password: data.password,
-            comment: data.comment
+            ...data
         };
 
-        const newPwdArray = [...passwordList, newPwd];
-        setPasswordList(newPwdArray);
-        handleModalClose();
+        setPasswordList([...passwordList, newPwd]);
     }
-    
+
     function handleModalClose(){
         reset();
         setShowAddPwdForm(false);
