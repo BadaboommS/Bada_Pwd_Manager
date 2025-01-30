@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { PwdArray } from '../types/pwdTypes';
-import { ParamsInterface } from '../types/mainProcessTypes';
+import { ParamsInterface, DEFAULT_FILE_PARAMS } from '../types/mainProcessTypes';
 import { accountService } from '../services/account.service';
 
 interface AccountContextInterface {
@@ -38,30 +38,9 @@ export default function AccountContextProvider ({ children }: { children: React.
       console.log(`Error in Password Fetching Context: ${err.name} - ${err.message}`);
     }
   }, []);
-
-  // Check if change have been made since last data fetch / save
-  const [changedSinceLastUpdate, setChangedSinceLastUpdate] = useState<boolean>(false);
-  
-  const objectsAreEqual = (o1: object, o2: object): boolean => Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every(p => o1[p as keyof typeof o1] === o2[p as keyof typeof o2]);
-  const arrayOfObjAreEqual = (arr1 : Array<object>, arr2: Array<object>): boolean => arr1.length === arr2.length && arr1.every((o, index) => objectsAreEqual(o, arr2[index]));
-
-  useEffect(() => {
-    arrayOfObjAreEqual(passwordList, lastFetchedList)? setChangedSinceLastUpdate(false) : setChangedSinceLastUpdate(true)
-  }, [passwordList, lastFetchedList]);
   
   // Fetch Params
-  const [fileParams, setFileParams] = useState<ParamsInterface>({ // DEFAULT_PARAMS
-      length: 20,
-      selectedSet: {
-          setNumber: true,
-          setUppercase: true,
-          setLowercase: true,
-          setMinus: false,
-          setUnderline: false,
-          setSpecial: false,
-          setBrackets: false,
-      }
-  });
+  const [fileParams, setFileParams] = useState<ParamsInterface>(DEFAULT_FILE_PARAMS);
 
   async function fetchFileParams(){
     return await window.electronAPI.getFileParams(accountService.getToken());
@@ -80,6 +59,19 @@ export default function AccountContextProvider ({ children }: { children: React.
       console.log(`Error in Params Fetching Context: ${err.name} - ${err.message}`);
     }
   }, []);
+
+
+   // Check if change have been made since last data fetch / save
+   const [changedSinceLastUpdate, setChangedSinceLastUpdate] = useState<boolean>(false);
+  
+   const objectsAreEqual = (o1: object, o2: object): boolean => Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every(p => o1[p as keyof typeof o1] === o2[p as keyof typeof o2]);
+   const arrayOfObjAreEqual = (arr1 : Array<object>, arr2: Array<object>): boolean => arr1.length === arr2.length && arr1.every((o, index) => objectsAreEqual(o, arr2[index]));
+ 
+   useEffect(() => {
+     arrayOfObjAreEqual(passwordList, lastFetchedList)
+       ? setChangedSinceLastUpdate(false) 
+       : setChangedSinceLastUpdate(true)
+   }, [passwordList, lastFetchedList]);
 
   return (
     <AccountContext.Provider value={{ passwordList, setPasswordList, changedSinceLastUpdate, setLastFetchedList, fileParams, setFileParams }}>

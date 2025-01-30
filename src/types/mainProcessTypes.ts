@@ -50,18 +50,21 @@ export interface FullFileInterface {
 }
 
 export const DEFAULT_FILE = '';
+
+export const DEFAULT_FILE_PARAMS: ParamsInterface = {
+    length: 20,
+    selectedSet: {
+        setNumber: true,
+        setUppercase: true,
+        setLowercase: true,
+        setMinus: false,
+        setUnderline: false,
+        setSpecial: false,
+        setBrackets: false,
+    }
+}
+
 export const DEFAULT_FILE_DATA: ActiveFileInterface = {
-    params: {
-        length: 20,
-        selectedSet: {
-            setNumber: true,
-            setUppercase: true,
-            setLowercase: true,
-            setMinus: false,
-            setUnderline: false,
-            setSpecial: false,
-            setBrackets: false,
-        }
-    },
+    params: DEFAULT_FILE_PARAMS,
     pwdList: []
 };
