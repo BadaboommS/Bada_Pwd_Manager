@@ -15,12 +15,14 @@ if(process.contextIsolated){
             createNewFile: (newFileData: NewFileInterface) => ipcRenderer.send("createNewFile", newFileData),
             deleteFile: (fileName: string) => ipcRenderer.send("deleteFile", fileName),
             clipboardCopy: (text: string) => ipcRenderer.send("clipboardCopy", text),
+            openAlert: (title: string, message: string) => ipcRenderer.send("openAlert", title, message),
 
             // Main.handle
             getStorageFileData: () => ipcRenderer.invoke("getStorageFileData"),
             checkMasterKey: (encodedKey: string, fileName: string) => ipcRenderer.invoke("checkMasterKey", encodedKey, fileName),
             getUserPwdData: (token: string) => ipcRenderer.invoke("getUserPwdData", token),
             getFileParams: (token: string) => ipcRenderer.invoke("getFileParams", token),
+            openDialog: (title: string, message: string, confirm: string, cancel: string) => ipcRenderer.invoke("openDialog", title, message, confirm, cancel)
         })
     }catch(error){
         console.log(error);

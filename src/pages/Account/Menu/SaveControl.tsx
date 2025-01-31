@@ -6,17 +6,18 @@ import { accountService } from '../../../services/account.service';
 export default function SaveControl() {
     const { passwordList, changedSinceLastUpdate, setLastFetchedList } = useContext(AccountContext);
         
-    function handlePasswordListChange(): void{
+    async function handlePasswordListChange(): Promise<void>{
         if(changedSinceLastUpdate){
-            if(window.confirm("Save changes ?") === false){
-                return null
+            const confirm = await window.electronAPI.openDialog("Password List Save", "Save changes ?", "Save", "Cancel");
+            if(!confirm){
+                return null;
             }
         }else{
-            if(window.confirm("No change since last update, save anyway ?") === false){
-                return null
+            const confirm = await window.electronAPI.openDialog("Password List Save", "No change since last update, save anyway ?", "Save", "Cancel");
+            if(!confirm){
+                return null;
             }
         }
-        
 
         window.electronAPI.setFilePwdData(passwordList, accountService.getToken());
         setLastFetchedList(passwordList);

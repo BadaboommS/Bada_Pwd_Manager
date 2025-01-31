@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import started from 'electron-squirrel-startup';
-import { mainServiceFile, mainServiceInfo } from './services/main.service';
+import { mainServiceFile, mainServiceInfo, mainServiceUtils } from './services/main.service';
 import { ParamsInterface, NewFileInterface } from './types/mainProcessTypes';
 import { activeFileService } from './services/activeFile.service';
 import { PwdArray } from './types/pwdTypes';
@@ -80,6 +80,10 @@ ipcMain.handle("getUserPwdData", (e, token: string) => {
   return mainServiceInfo.checkToken(token)? activeFileService.getActiveFileData('pwdList') : null;
 })
 
+ipcMain.handle("openDialog", (e, title: string, message: string, confirm: string, cancel: string) => {
+  return mainServiceUtils.openDialog(title, message, confirm, cancel);
+})
+
 // On => No return value
 ipcMain.on("createNewFile", (e, newFileData: NewFileInterface) => {
   mainServiceFile.createStorageFile(newFileData);
@@ -112,4 +116,8 @@ ipcMain.on("setFileParams", (e, newParams: ParamsInterface, token: string) => {
 
 ipcMain.on("clipboardCopy", (e, text: string) => {
   mainServiceFile.copyText(text);
+})
+
+ipcMain.on("openAlert", (e, title: string, message: string) => {
+  mainServiceUtils.openAlert(title, message);
 })

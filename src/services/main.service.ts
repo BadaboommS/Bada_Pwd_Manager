@@ -1,4 +1,4 @@
-import { app, safeStorage, clipboard } from 'electron';
+import { app, safeStorage, clipboard, dialog, Notification } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { randomBytes } from 'crypto';
@@ -285,10 +285,41 @@ function writeUserParams(params: ParamsInterface){
 }
 
 
+// Utils Service
+function openDialog(title: string, message: string, confirm: string, cancel: string): boolean{
+    try{
+        return dialog.showMessageBoxSync({
+            'type': 'question',
+            'title': title,
+            'message': message,
+            'buttons': [
+              confirm,
+              cancel
+            ]
+          }) !== 0 ? false : true;
+    }catch(err){
+        logError(err);
+        return null;
+    }
+    
+}
+
+function openAlert(title: string, message: string){
+    try{
+        new Notification({title: title, body: message}).show();
+    }catch(err){
+        logError(err);
+    }
+}
+
 export const mainServiceFile = {
     isEncryptionAvailable, createStorageFile, deleteStorageFile, getStorageFilesInfo, copyText
 }
 
 export const mainServiceInfo = {
-    checkToken, getFileEncryptedInfo, checkMasterKey, writeUserPwd, writeUserParams
+    checkToken, checkMasterKey, getFileEncryptedInfo, writeUserPwd, writeUserParams
+}
+
+export const mainServiceUtils = {
+    openDialog, openAlert
 }

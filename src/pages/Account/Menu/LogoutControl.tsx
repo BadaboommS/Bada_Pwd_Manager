@@ -10,14 +10,16 @@ export default function LogoutControl() {
     const { setSelectedFile } = useContext(GeneralContext);
     const navigate = useNavigate();
 
-    function handleLogout(): void{
+    async function handleLogout(): Promise<void>{
         if(changedSinceLastUpdate){
-            if(window.confirm("Change have been made since last save, logout anyway ?") === false){
-                return null
+            const confirm = await window.electronAPI.openDialog("Logout", "Change have been made since last save, logout anyway ?", "Confirm", "Cancel");
+            if(!confirm){
+                return null;
             }
         }else{
-            if(window.confirm("Logout ?") === false){
-                return null
+            const confirm = await window.electronAPI.openDialog("Logout", "Logout ?", "Confirm", "Cancel");
+            if(!confirm){
+                return null;
             }
         }
         

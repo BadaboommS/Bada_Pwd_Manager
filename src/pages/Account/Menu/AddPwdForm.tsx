@@ -30,18 +30,21 @@ export default function AddPwdForm({ setShowAddPwdForm } : AddPwdFormPropsInterf
             comment: ''
         }
     });
+    
 
-    const onSubmit: SubmitHandler<PwdFormInput> = (data) => {
-        if(window.confirm("Confirm add new password ?") === false){
-            return null
+    const onSubmit: SubmitHandler<PwdFormInput> = async (data) => {
+        const confirm = await window.electronAPI.openDialog("Confirm password ?", "Add this password to the list ?", "Confirm", "Cancel");
+        if(!confirm){
+            return;
         }
 
-        const newPwd = {
+        const newPwdEntry = {
             id: passwordList[0]? passwordList[passwordList.length - 1].id + 1 : 0,
             ...data
         };
 
-        setPasswordList([...passwordList, newPwd]);
+        setPasswordList([...passwordList, newPwdEntry]);
+        handleModalClose();
     }
 
     function handleModalClose(){

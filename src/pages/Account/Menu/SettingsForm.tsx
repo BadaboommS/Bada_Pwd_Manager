@@ -24,8 +24,9 @@ export default function SettingsForm({ setShowParamsModal } : SettingsFormPropsI
     const { fileParams, setFileParams } = useContext(AccountContext);
     const { register, handleSubmit, reset } = useForm<ParamsFormInput>();
 
-    const onSubmit: SubmitHandler<ParamsFormInput> = (data) => {
-        if(window.confirm("Save settings ?") === false){
+    const onSubmit: SubmitHandler<ParamsFormInput> = async (data) => {
+        const confirm = await window.electronAPI.openDialog("Password Generation Settings Save", "Save settings ?", "Save", "Cancel");
+        if(!confirm){
             return null;
         }
 
@@ -43,7 +44,7 @@ export default function SettingsForm({ setShowParamsModal } : SettingsFormPropsI
         }
 
         if(Object.values(newParams.selectedSet).every((bool) => bool === false)){
-            alert('None Options have been selected, please select at least one.');
+            window.electronAPI.openAlert('Error', 'None Options have been selected, please select at least one.');
         }
         
         setFileParams(newParams);

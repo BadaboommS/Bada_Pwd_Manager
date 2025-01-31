@@ -20,15 +20,16 @@ export default function FileDeleteForm({ deleteFileName, setShowDeleteModal }: F
             password: ''
         }
     });
-    const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
-        if(window.confirm("Confirm File suppression ? (this is permanent)") === false){
-            return null
+    const onSubmit: SubmitHandler<LoginFormInput> = async (data) => {
+        const confirm = await window.electronAPI.openDialog("File suppression", "Confirm File suppression ? (this is permanent)", "Delete", "Cancel");
+        if(!confirm){
+            return null;
         }
 
         accountService.login(data.password, deleteFileName)
             .then(token => {
                 if(token === null || token === undefined){
-                    alert('Wrong Master Key');
+                    window.electronAPI.openAlert('Error', 'Wrong Master Key !');
                 }else{
                     window.electronAPI.deleteFile(deleteFileName);
                     setReload(true);

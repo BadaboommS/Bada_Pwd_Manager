@@ -10,12 +10,14 @@ export interface IElectronAPI {
     createNewFile: (newFileData: NewFileInterface) => void,
     deleteFile: (fileName: string) => void,
     clipboardCopy: (text: string) => void,
+    openAlert: (title: string, message: string) => void,
 
     // Main.handle
     getStorageFileData: () => Promise<StorageDataInfoInterface[]>,
     checkMasterKey: (encodedKey: string, fileName: string) => Promise<string>,
     getUserPwdData: (token: string) => Promise<PwdArray>,
-    getFileParams: (token: string) => Promise<ParamsInterface>,    
+    getFileParams: (token: string) => Promise<ParamsInterface>,
+    openDialog: (title: string, message: string, confirm: string, cancel: string) => Promise<boolean>
 }
 
 declare global{

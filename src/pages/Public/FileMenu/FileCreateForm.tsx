@@ -27,13 +27,14 @@ export default function FileCreateForm ({ setShowAddFile }: FileCreateFormPropsI
     const { filesList, setReload } = useContext(PublicContext);
 
     const { register, handleSubmit, reset } = useForm<FileFormInput>();
-    const onSubmit: SubmitHandler<FileFormInput> = (data) => {
-        if(window.confirm("Confirm add new file ?") === false){
-            return null
+    const onSubmit: SubmitHandler<FileFormInput> = async (data) => {
+        const confirm = await window.electronAPI.openDialog("New Password File", "Confirm add new file ?", "Add", "Cancel");
+        if(!confirm){
+            return null;
         }
 
         if(filesList.map((file: StorageDataInfoInterface) => file.fileName).includes(data.name)){
-            alert('File already exists !');
+            window.electronAPI.openAlert('Error', 'File already exists !');          
             return null
         }
 

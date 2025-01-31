@@ -12,8 +12,13 @@ interface generatePasswordProps {
 }
 
 export function generatePassword(params: generatePasswordProps){
-    if(params.length <= 5){ alert('Password length is too low.'); return; }
-    if(params.length > 40){ alert('Password length is too high.'); return; }
+    if(params.length <= 5){ 
+        window.electronAPI.openAlert('Error', 'Password length is too low.');
+        return; 
+    }
+    if(params.length > 40){
+        window.electronAPI.openAlert('Error', 'Password length is too high.');
+    }
 
     // Charsets
     const NUMBERS = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
@@ -35,7 +40,10 @@ export function generatePassword(params: generatePasswordProps){
     if(params.selectedSet.setSpecial) { charSets.push(SPECIAL); generateRegex += "(?=.*[!#$%&@£])"; }
     if(params.selectedSet.setBrackets) { charSets.push(BRACKETS); generateRegex += "(?=.*[<>()\\[\\]{}])"; }
 
-    if(charSets.length === 0){ alert('No password generation options selected.'); return; }
+    if(charSets.length === 0){ 
+        window.electronAPI.openAlert('Error', 'No password generation options selected.');
+        return; 
+    }
     
     const finalCheckRegex = new RegExp(generateRegex);
     let password;

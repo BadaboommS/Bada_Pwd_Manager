@@ -27,9 +27,10 @@ export default function PasswordEditForm({ item, setShowEdit }: PwdItemPropsInte
 
     const { register, handleSubmit, setValue, reset } = useForm<PwdEditFormInput>();
     
-    const onSubmit: SubmitHandler<PwdEditFormInput> = (data) => {
-        if(window.confirm("Confirm Edit ?") === false){
-            return null
+    const onSubmit: SubmitHandler<PwdEditFormInput> = async (data) => {
+        const confirm = await window.electronAPI.openDialog("Password Entry Edit", "Confirm Edit ?", "Save", "Cancel");
+        if(!confirm){
+            return null;
         }
 
         const editedPwd: PwdItem = { id: item.id, ...data };
@@ -39,13 +40,13 @@ export default function PasswordEditForm({ item, setShowEdit }: PwdItemPropsInte
         handleModalClose();
     }
 
-    function handlePwdDelete(deletePwdId: number): void{
-        if(window.confirm("Confirm Delete ?") === false){
-          return null
+    async function handlePwdDelete(deletePwdId: number): Promise<void>{
+        const confirm = await window.electronAPI.openDialog("Password Entry Delete", "Confirm Delete ?", "Delete", "Cancel");
+        if(!confirm){
+            return null;
         }
         
         setPasswordList(passwordList.filter((obj: PwdItem) => obj.id !== deletePwdId));
-
         handleModalClose();
       }
 
